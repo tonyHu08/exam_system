@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>学生查询</title>
-</head>
-<body>
-<a href="{:url('Admin/index')}"><--返回</a>
+{extend name="admin/base" /}
+{block name="body"}
+<a href="{:url('Admin/adminSearchStudentIndex')}"><--返回</a>
 <p>
-    教师姓名：{$student_info.username}
+    学生姓名：{$student_info.username}
 </p>
 <p>
-    教职工号：{$student_info.num}
+    学号：{$student_info.num}
 </p>
 <p>
     邮箱：{$student_info.email}
@@ -23,5 +18,4 @@
     被停用
     {/eq}
 </p>
-</body>
-</html>
+{/block}

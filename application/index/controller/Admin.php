@@ -24,7 +24,7 @@ class Admin extends Controller
     /*--------------------------------------教师管理--------------------------------------*/
     public function adminAddTeacherIndex()      //管理员添加教师主页
     {
-        $this->assign('title','添加教师');
+        $this->assign('title', '添加教师');
         return $this->fetch('');
     }
 
@@ -54,7 +54,10 @@ class Admin extends Controller
 
     public function adminBanTeacherIndex()       //管理员停用教师账号主页
     {
-        $this->assign('title','停用教师');
+        $tool = new Tool();
+        $teacher = $tool->findNotBanTeacher();
+        $this->assign('teacher', $teacher);
+        $this->assign('title', '停用教师');
         return $this->fetch('');
     }
 
@@ -85,7 +88,10 @@ class Admin extends Controller
 
     public function adminRecoverTeacherIndex()       //管理员恢复教师账号
     {
-        $this->assign('title','恢复教师');
+        $tool = new Tool();
+        $teacher = $tool->findBanTeacher();
+        $this->assign('teacher', $teacher);
+        $this->assign('title', '恢复教师');
         return $this->fetch('');
     }
 
@@ -116,7 +122,10 @@ class Admin extends Controller
 
     public function adminSearchTeacherIndex()        //管理员查找教师账号
     {
-        $this->assign('title','查找教师');
+        $tool = new Tool();
+        $teacher = $tool->findAllTeacher();
+        $this->assign('teacher', $teacher);
+        $this->assign('title', '查找教师');
         return $this->fetch('');
     }
 
@@ -143,7 +152,7 @@ class Admin extends Controller
 
     public function adminAddStudentIndex()      //管理员添加学生主页
     {
-        $this->assign('title','添加学生');
+        $this->assign('title', '添加学生');
         return $this->fetch('');
     }
 
@@ -173,7 +182,10 @@ class Admin extends Controller
 
     public function adminBanStudentIndex()       //管理员停用学生账号主页
     {
-        $this->assign('title','停用学生');
+        $tool = new Tool();
+        $student = $tool->findNotBanStudent();
+        $this->assign('student', $student);
+        $this->assign('title', '停用学生');
         return $this->fetch('');
     }
 
@@ -204,7 +216,10 @@ class Admin extends Controller
 
     public function adminRecoverStudentIndex()       //管理员恢复学生账号主页
     {
-        $this->assign('title','恢复学生');
+        $tool = new Tool();
+        $student = $tool->findBanStudent();
+        $this->assign('student', $student);
+        $this->assign('title', '恢复学生');
         return $this->fetch('');
     }
 
@@ -235,7 +250,10 @@ class Admin extends Controller
 
     public function adminSearchStudentIndex()        //管理员查找学生账号主页
     {
-        $this->assign('title','查找学生');
+        $tool = new Tool();
+        $student = $tool->findAllStudent();
+        $this->assign('student', $student);
+        $this->assign('title', '查找学生');
         return $this->fetch('');
     }
 
@@ -264,7 +282,7 @@ class Admin extends Controller
     {
         $tool = new Tool();
         $this->assign('teacher', $tool->findAllTeacher());
-        $this->assign('title','添加课堂');
+        $this->assign('title', '添加课堂');
         return $this->fetch('');
     }
 
@@ -294,6 +312,7 @@ class Admin extends Controller
     {
         $tool = new Tool();
         $this->assign('teacher', $tool->findAllTeacher());
+        //调用查询课堂信息的方法
         return $this->adminSearchClass();
     }
 
@@ -316,7 +335,21 @@ class Admin extends Controller
 
     public function adminSearchClassIndex()          //管理员按课程号搜索课程信息
     {
-        $this->assign('title','查询课堂信息');
+        $func = input('func');
+        switch($func) {
+            case 'search':
+                $this->assign('title', '查询课堂信息');
+                break;
+            case 'compile':
+                $this->assign('title', '编辑课堂信息');
+                break;
+            case 'ban':
+                $this->assign('title', '停用课堂');
+                break;
+        }
+        $tool = new Tool();
+        $class = $tool->findAllClass();
+        $this->assign('class', $class);
         return $this->fetch('');
     }
 

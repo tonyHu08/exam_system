@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>编辑课程</title>
-    <link rel="stylesheet" href="__STATIC__/css/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-    <script src="__STATIC__/js/jquery-3.3.1.min.js"></script>
-    <script src="__STATIC__/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript"
-            src="__STATIC__/js/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript"
-            src="__STATIC__/js/ueditor/ueditor.all.js"></script>
-</head>
-<body>
-<a href="{:url('Admin/index')}"><--返回</a>
+{extend name="admin/base"}
+{block name="body"}
+<a href="{:url('Admin/adminSearchClass',['class_num'=>$class_info.class_num])}"><--返回</a>
 <form action="{:url('Admin/adminCompileClass')}" method="post">
     <p>课程号：{$class_info.class_num}</p>
     <input type="text" name="class_name" placeholder="输入课程名称" class="form-control" value="{$class_info.class_name}">
@@ -30,5 +18,4 @@
               value="{$class_info.basic_information}"></textarea>
     <button type="submit" value="{$class_info.class_num}" name="class_num" class="btn-default">提交</button>
 </form>
-</body>
-</html>
+{/block}

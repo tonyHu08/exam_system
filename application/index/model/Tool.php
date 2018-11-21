@@ -75,10 +75,45 @@ class Tool extends Model
         return $info;
     }
 
+    //查找被停用账号老师
+    public function findBanTeacher()
+    {
+        $info = db('userlist')->where('identity',1)->where('ban',1)->select();
+        return $info;
+    }
+
+    //查找没有被停用账号老师
+    public function findNotBanTeacher()
+    {
+        $info = db('userlist')->where('identity',1)->where('ban',0)->select();
+        return $info;
+    }
+
     //查找全部学生
     public function findAllStudent()
     {
         $info = db('userlist')->where('identity', 0)->select();
+        return $info;
+    }
+
+    //查找被停用账号学生
+    public function findBanStudent()
+    {
+        $info = db('userlist')->where('identity',0)->where('ban',1)->select();
+        return $info;
+    }
+
+    //查找没有被停用账号学生
+    public function findNotBanStudent()
+    {
+        $info = db('userlist')->where('identity',0)->where('ban',0)->select();
+        return $info;
+    }
+
+    //查找全部课堂
+    public function findAllClass()
+    {
+        $info = db('class')->select();
         return $info;
     }
 

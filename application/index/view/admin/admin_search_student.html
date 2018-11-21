@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生查询</title>
+</head>
+<body>
+<a href="{:url('Admin/index')}"><--返回</a>
+<p>
+    教师姓名：{$student_info.username}
+</p>
+<p>
+    教职工号：{$student_info.num}
+</p>
+<p>
+    邮箱：{$student_info.email}
+</p>
+<p>
+    账号状态：
+    {eq name="$student_info.ban" value="0"}
+    正常
+    {else/}
+    被停用
+    {/eq}
+</p>
+</body>
+</html>

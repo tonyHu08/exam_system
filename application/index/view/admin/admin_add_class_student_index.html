@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加课堂学生</title>
+    <link rel="stylesheet" href="__STATIC__/css/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="__STATIC__/js/jquery-3.3.1.min.js"></script>
+    <script src="__STATIC__/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript"
+            src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript"
+            src="__STATIC__/js/ueditor/ueditor.all.js"></script>
+
+</head>
+<body>
+<a href="{:url('Admin/index')}"><--返回</a>
+<p>
+    当前课堂：{$class_info.class_name}
+</p>
+
+<form action="{:url('Admin/adminAddClassStudent')}" method="post">
+    <table border="1px">
+        <th>选课状态</th>
+        <th>学生姓名</th>
+        {volist name="student" id="student" key="k"}
+        <tr>
+            <td align="center"><input type="checkbox" value="{$student.num}" name="student_num[{$k}]"></td>
+            <td width="100px">{$student.username}</td>
+        </tr>
+        {/volist}
+    </table>
+    <button type="submit" value="{$class_info.class_num}" name="class_num">添加</button>
+</form>
+</body>
+</html>

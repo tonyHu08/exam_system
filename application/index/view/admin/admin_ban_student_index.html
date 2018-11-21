@@ -1,0 +1,8 @@
+{extend name="admin/base"}
+{block name="body"}
+<h4>停用学生账号</h4>
+<form action="{:url('Admin/adminBanStudent')}">
+    <input type="text" name="num" placeholder="输入学号" class="form-control">
+    <input type="submit" value="提交" class="btn-default">
+</form>
+{/block}

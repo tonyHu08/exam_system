@@ -1,0 +1,8 @@
+{extend name="admin/base"}
+{block name="body"}
+<h4>恢复教师账号</h4>
+<form action="{:url('Admin/adminRecoverTeacher')}">
+    <input type="text" name="num" placeholder="输入教师教职工号" class="form-control">
+    <input type="submit" value="提交" class="btn-default">
+</form>
+{/block}

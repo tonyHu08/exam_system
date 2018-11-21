@@ -1,0 +1,8 @@
+{extend name="admin/base"}
+{block name="body"}
+<h4>查询学生信息</h4>
+<form action="{:url('Admin/adminSearchStudent')}">
+    <input type="text" name="num" placeholder="输入学号" class="form-control">
+    <input type="submit" value="搜索" class="btn-default">
+</form>
+{/block}

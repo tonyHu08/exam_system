@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>课堂信息</title>
-</head>
-<body>
-<a href="{:url('Admin/index')}"><--返回</a>
+{extend name="admin/base"}
+{block name="body"}
+<a href="{:url('Admin/adminSearchClassIndex?func=search')}"><--返回</a>
 <p>
     课堂名称：{$class_info.class_name}
 </p>
@@ -42,5 +37,4 @@
 <a href="{:url('Admin/adminRecoverClass')}?class_num={$class_info.class_num}">恢复课堂</a>
 {/eq}
 <a href="{:url('Admin/adminAddClassStudentIndex')}?class_num={$class_info.class_num}">添加该课堂学生</a>
-</body>
-</html>
+{/block}

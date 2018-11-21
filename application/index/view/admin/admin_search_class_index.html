@@ -1,6 +1,6 @@
 {extend name="admin/base" /}
 {block name="body"}
-<h4>查询课堂</h4>
+<h4>{$title}</h4>
 <form action="{:url('Admin/adminSearchClass')}">
     <input type="text" name="class_num" placeholder="输入要查询、编辑的课程号" class="form-control">
     <input type="submit" value="搜索" class="btn-default">

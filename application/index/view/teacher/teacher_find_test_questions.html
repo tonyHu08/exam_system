@@ -7,7 +7,7 @@
     当前课堂没有单选题
     {else/}
     {volist name="single_choice" id="tq"}
-    <div style="border: gray 1px solid;width: 33%;height:250px;float: left;padding: 5px;">
+    <div style="border: gray 1px solid;width: 33%;height:250px;float: left;padding: 5px;background-color: white;">
         <h4 title="{$tq.topic}" class="topic">题目：{$tq.topic}</h4>
         A:{$tq.A}<br>
         B:{$tq.B}<br>
@@ -29,7 +29,7 @@
     当前课堂没有单选题
     {else/}
     {volist name="true_or_false" id="tof"}
-    <div style="border: gray 1px solid;width: 33%;height:200px;float: left;padding: 5px;">
+    <div style="border: gray 1px solid;width: 33%;height:200px;float: left;padding: 5px;background-color: white;">
         <h4 class="topic">题目：{$tof.topic}</h4>
         解题思路：{$tof.soleve_thinking}<br>
         答案：{$tof.answer}<br>

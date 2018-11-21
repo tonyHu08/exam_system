@@ -56,6 +56,30 @@ class Tool extends Controller
         return $tool->findAllTeacher();
     }
 
+    public function findBanTeacher()        //查找被停用账号老师
+    {
+        $tool = model('Tool');
+        return $tool->findBanTeacher();
+    }
+
+    public function findNotBanTeacher()        //查找没有被停用账号老师
+    {
+        $tool = model('Tool');
+        return $tool->findNotBanTeacher();
+    }
+
+    public function findBanStudent()        //查找被停用账号学生
+    {
+        $tool = model('Tool');
+        return $tool->findBanStudent();
+    }
+
+    public function findNotBanStudent()        //查找没有被停用账号学生
+    {
+        $tool = model('Tool');
+        return $tool->findNotBanStudent();
+    }
+
     public function findAllStudent()        //查找全部学生
     {
         $tool = model('Tool');
@@ -68,6 +92,11 @@ class Tool extends Controller
         return $tool->findAllStudentInClass($class_num);
     }
 
+    public function findAllClass()          //查找全部课堂
+    {
+        $tool = model('Tool');
+        return $tool->findAllClass();
+    }
 
     public function classNumFindClass($class_num)     //根据课程号查找课程信息
     {

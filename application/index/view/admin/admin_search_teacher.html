@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>教师查询</title>
-</head>
-<body>
-<a href="{:url('Admin/index')}"><--返回</a>
+{extend name="admin/base" /}
+{block name="body"}
+<a href="{:url('Admin/adminSearchTeacherIndex')}"><--返回</a>
 <p>
     教师姓名：{$teacher_info.username}
 </p>
@@ -23,5 +18,4 @@
     被停用
     {/eq}
 </p>
-</body>
-</html>
+{/block}

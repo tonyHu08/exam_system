@@ -97,6 +97,7 @@ class Tool extends Controller
         $tool = model('Tool');
         return $tool->findAllClass();
     }
+    /*--------------------------------------课堂管理--------------------------------------*/
 
     public function classNumFindClass($class_num)     //根据课程号查找课程信息
     {
@@ -130,6 +131,29 @@ class Tool extends Controller
         $tool['true_or_false'] = $this->classNumFindTrueOrFalse($class_num);
         return $tool;
     }
+
+    public function singleChoiceIdFindSingleChoice($single_choice_id)       //根据单选题id查找单选题
+    {
+        $tool = model('Tool');
+        return $tool->singleChoiceIdFindSingleChoice($single_choice_id);
+    }
+
+    public function trueOrFalseIdFindTrueOrFalse($true_or_false_id)       //根据单选题id查找单选题
+    {
+        $tool = model('Tool');
+        return $tool->trueOrFalseIdFindTrueOrFalse($true_or_false_id);
+    }
+
+
+    /*--------------------------------------试卷库管理--------------------------------------*/
+    public function paperNumFindPaper($paper_num)       //根据试卷号查找试卷信息
+    {
+        $tool = model('Tool');
+        return $tool->paperNumFindPaper($paper_num);
+    }
+
+
+
 
     public function sendMail()         //发送邮件
     {

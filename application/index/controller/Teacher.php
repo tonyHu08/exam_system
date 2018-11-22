@@ -22,8 +22,8 @@ class Teacher extends Controller
     }
 
     /*--------------------------------------题库管理--------------------------------------*/
-
-    public function teacherAddSingleChoiceIndex()       //教师添加单选题主页
+    //教师添加单选题主页
+    public function teacherAddSingleChoiceIndex()
     {
         $teacher_model = model('Teacher');
         $class_info = $teacher_model->teacherFindSelfClass(session('num'));
@@ -31,7 +31,8 @@ class Teacher extends Controller
         return $this->fetch('');
     }
 
-    public function teacherAddSingleChoice()       //教师添加单选题
+    //教师添加单选题
+    public function teacherAddSingleChoice()
     {
         $data = [
             'topic' => input('topic'),
@@ -61,7 +62,8 @@ class Teacher extends Controller
         }
     }
 
-    public function teacherAddTrueOrFalseIndex()     //教师添加判断题
+    //教师添加判断题
+    public function teacherAddTrueOrFalseIndex()
     {
         $teacher_model = model('Teacher');
         $class_info = $teacher_model->teacherFindSelfClass(session('num'));
@@ -69,7 +71,8 @@ class Teacher extends Controller
         return $this->fetch('');
     }
 
-    public function teacherAddTrueOrFalse()     //教师添加判断题
+    //教师添加判断题
+    public function teacherAddTrueOrFalse()
     {
         $data = [
             'topic' => input('topic'),
@@ -95,7 +98,8 @@ class Teacher extends Controller
         }
     }
 
-    public function teacherTestQuestionsManage()        //教师管理题
+    //教师管理题
+    public function teacherTestQuestionsManage()
     {
         $teacher_model = model('Teacher');
         $single_choice = $teacher_model->teacherSingleChoiceManage(session('num'));
@@ -105,7 +109,8 @@ class Teacher extends Controller
         return $this->fetch('');
     }
 
-    public function teacherDeleteSingleChoice()        //教师删除单选题题目
+    //教师删除单选题题目
+    public function teacherDeleteSingleChoice()
     {
         $single_choice_id = input('id');
         $teacher_model = model('Teacher');
@@ -116,7 +121,8 @@ class Teacher extends Controller
         }
     }
 
-    public function teacherCompileSingleChoiceIndex()        //教师编辑单选题主页
+    //教师编辑单选题主页
+    public function teacherCompileSingleChoiceIndex()
     {
         $single_choice_id = input('id');
         $teacher_model = model('Teacher');
@@ -128,7 +134,8 @@ class Teacher extends Controller
         return $this->fetch('');
     }
 
-    public function teacherCompileSingleChoice()        //教师编辑单选题
+    //教师编辑单选题
+    public function teacherCompileSingleChoice()
     {
         $data = [
             'topic' => input('topic'),
@@ -158,7 +165,8 @@ class Teacher extends Controller
         }
     }
 
-    public function teacherDeleteTrueOrFalse()        //教师删除判断题题目
+    //教师删除判断题题目
+    public function teacherDeleteTrueOrFalse()
     {
         $true_or_false_id = input('id');
         $teacher_model = model('Teacher');
@@ -169,7 +177,8 @@ class Teacher extends Controller
         }
     }
 
-    public function teacherCompileTrueOrFalseIndex()        //教师编辑单选题主页
+    //教师编辑单选题主页
+    public function teacherCompileTrueOrFalseIndex()
     {
         $true_or_false_id = input('id');
         $teacher_model = model('Teacher');
@@ -181,7 +190,8 @@ class Teacher extends Controller
         return $this->fetch('');
     }
 
-    public function teacherCompileTrueOrFalse()         //教师编辑判断题
+    //教师编辑判断题
+    public function teacherCompileTrueOrFalse()
     {
         $data = [
             'topic' => input('topic'),
@@ -207,7 +217,8 @@ class Teacher extends Controller
         }
     }
 
-    public function teacherFindSelfClass()      //教师查找自己的课堂
+    //教师查找自己的课堂
+    public function teacherFindSelfClass()
     {
         $teacher_model = model('Teacher');
         if($teacher_model->teacherFindSelfClass(session('num'))) {
@@ -219,13 +230,15 @@ class Teacher extends Controller
         }
     }
 
-    public function teacherFindTestQuestionsIndex()     //教师查询试题主页
+    //教师查询试题主页
+    public function teacherFindTestQuestionsIndex()
     {
         $this->teacherFindSelfClass();
         return $this->fetch('');
     }
 
-    public function teacherFindTestQuestions()      //教师查询试题
+    //教师查询试题
+    public function teacherFindTestQuestions()
     {
         $class_num = input('class_num');
         $tool = new Tool();
@@ -240,19 +253,23 @@ class Teacher extends Controller
     }
 
     /*--------------------------------------试卷库管理--------------------------------------*/
-    public function teacherAddPaperSearch()      //教师添加试卷搜索课堂页面
+
+    //教师添加试卷搜索课堂页面
+    public function teacherAddPaperSearch()
     {
         $this->teacherFindSelfClass();      //查找自己的课堂
         return $this->fetch('');
     }
 
-    public function teacherAddPaperIndex()      //教师添加试卷页面
+    //教师添加试卷页面
+    public function teacherAddPaperIndex()
     {
         $this->teacherFindTestQuestions();
         return $this->fetch('');
     }
 
-    public function teacherAddPaper()       //教师添加试卷
+    //教师添加试卷
+    public function teacherAddPaper()
     {
         if(input('paper_name') == null) {
             return $this->error('请输入试卷名称');
@@ -266,18 +283,70 @@ class Teacher extends Controller
             foreach($single_choice as $i) {
                 $single_choice_str = $single_choice_str . $i . '|';
             }
+        }else{
+            return $this->error('不能没有选择题');
         }
         if(isset(input()['true_or_false'])) {
             $true_or_false = input()['true_or_false'];
             foreach($true_or_false as $i) {
                 $true_or_false_str = $true_or_false_str . $i . '|';
             }
+        }else{
+            return $this->error('不能没有判断题');
         }
         $tool = new Tool();
         $class = $tool->classNumFindClass($class_num);
         $teacher = model('Teacher');
         if($teacher->teacherAddPaper($paper_name, $class['teacher'], $class['teacher_num'], $class['class_name'], $class_num, $single_choice_str, $true_or_false_str)) {
             return $this->success('添加试题成功！');
+        } else {
+            return $this->error('试题添加失败！');
+        }
+    }
+
+    //教师查找试卷主页
+    public function teacherFindPaperIndex()
+    {
+        $teacher_model = model('Teacher');
+        $paper = $teacher_model->teacherFindSelfPaper(session('num'));
+        $this->assign('paper', $paper);
+        return $this->fetch('');
+    }
+
+    //教师查找试卷信息
+    public function teacherFindPaper()
+    {
+        $paper_num = input('paper_num');
+        $tool = new Tool();
+        $paper = $tool->paperNumFindPaper($paper_num);
+        $single_choice_arr = explode('|',$paper['single_choice']);
+        $single_choice = [];
+        foreach($single_choice_arr as $num => $i){
+            $single_choice[$num] = $tool->singleChoiceIdFindSingleChoice($i);
+        }
+        $single_choice = array_filter($single_choice);
+
+        $true_or_false_arr = explode('|',$paper['true_or_false']);
+        $true_or_false = [];
+        foreach($true_or_false_arr as $num => $i){
+            $true_or_false[$num] = $tool->trueOrFalseIdFindTrueOrFalse($i);
+        }
+        $true_or_false = array_filter($true_or_false);
+        $this->assign('paper',$paper);
+        $this->assign('single_choice',$single_choice);
+        $this->assign('true_or_false',$true_or_false);
+        return $this->fetch('');
+    }
+
+    //教师删除试卷
+    public function teacherDeletePaper()
+    {
+        $paper_num = input('paper_num');
+        $teacher_model = model('Teacher');
+        if($teacher_model->teacherDeletePaper($paper_num)){
+            return $this->success('删除试题成功！','teacherFindPaperIndex');
+        }else{
+            return $this->error('删除试题失败！');
         }
     }
 }

@@ -12,15 +12,30 @@
             src="__STATIC__/js/ueditor/ueditor.all.js"></script>
 
     <script>
-        function checkall() {
-            if ($("#allcheck").is(":checked")) {
+        function single_choice_check_all() {
+            if ($("#single_all_check").is(":checked")) {
                 var objs = document.getElementsByClassName('single_choice');
                 console.log(objs);
                 for (var i = objs.length - 1; i >= 0; i--) {
                     objs[i].checked = true;
                 }
             } else {
-                var objs = document.getElementsByTagName('input');
+                var objs = document.getElementsByClassName('single_choice');
+                for (var i = objs.length - 1; i >= 0; i--) {
+                    objs[i].checked = false;
+                }
+            }
+        }
+
+        function true_or_false_check_all() {
+            if ($("#true_or_false_all_check").is(":checked")) {
+                var objs = document.getElementsByClassName('true_or_false');
+                console.log(objs);
+                for (var i = objs.length - 1; i >= 0; i--) {
+                    objs[i].checked = true;
+                }
+            } else {
+                var objs = document.getElementsByClassName('true_or_false');
                 for (var i = objs.length - 1; i >= 0; i--) {
                     objs[i].checked = false;
                 }
@@ -403,10 +418,10 @@
                                 <a href="{:url('Teacher/teacherAddPaperSearch')}">添加试卷</a>
                             </div>
                             <div style="margin-top: 20px;">
-                                <a href="{:url('Teacher/teacherPaperManage')}">管理试卷</a>
+                                <a href="">管理试卷</a>
                             </div>
                             <div style="margin-top: 20px;">
-                                <a href="{:url('Teacher/teacherPaperManage')}">删除试卷</a>
+                                <a href="">已删除试卷</a>
                             </div>
                         </div>
                     </td>

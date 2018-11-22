@@ -95,14 +95,22 @@ class Teacher extends Model
     //教师添加试卷
     public function teacherAddPaper($paper_name, $teacher_name, $teacher_num, $class_name, $class_num, $single_choice, $true_or_false)
     {
-        $info = db('paper')->insert(['paper_name' => $paper_name, 'teacher_name' => $teacher_name, 'teacher_num' => $teacher_num, 'class_name' => $class_name, 'class_num' => $class_num, 'single_choice' => $single_choice, 'true_or_false' => $true_or_false]);
+        $info = db('paper')->insert(['paper_name' => $paper_name, 'teacher_name' => $teacher_name, 'teacher_num' => $teacher_num, 'class_name' => $class_name, 'class_num' => $class_num, 'single_choice' => $single_choice, 'true_or_false' => $true_or_false, 'del' => 0]);
         return $info;
     }
 
-    //教师查找试卷
-    public function teacherFindPaper()
+    //教师查找自己的所有试卷
+    public function teacherFindSelfPaper($teacher_num)
     {
-        
+        $info = db('paper')->where('teacher_num', $teacher_num)->where('del', 0)->select();
+        return $info;
+    }
+
+    //教师删除试卷
+    public function teacherDeletePaper($paper_num)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['del' => 1]);
+        return $info;
     }
 
 }

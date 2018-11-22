@@ -21,6 +21,8 @@ class Teacher extends Controller
         }
     }
 
+    /*--------------------------------------题库管理--------------------------------------*/
+
     public function teacherAddSingleChoiceIndex()       //教师添加单选题主页
     {
         $teacher_model = model('Teacher');
@@ -150,7 +152,7 @@ class Teacher extends Controller
         $teacher_model = model('Teacher');
         $class_name = $tool->classNumFindClass($data['class_num'])['class_name'];
         if($teacher_model->teacherCompileSingleChoice($data['topic'], $data['A'], $data['B'], $data['C'], $data['D'], $data['soleve_thinking'], $data['single_choice_id'], $data['difficulty'], $data['class_num'], $class_name, $data['answer'])) {
-            return $this->success('修改试题成功！','teacherTestQuestionsManage');
+            return $this->success('修改试题成功！', 'teacherTestQuestionsManage');
         } else {
             return $this->error('修改试题失败！');
         }
@@ -199,7 +201,7 @@ class Teacher extends Controller
         $teacher_model = model('Teacher');
         //$topic, $soleve_thinking,  $true_or_false_id, $difficulty, $class_num, $class_name, $answer
         if($teacher_model->teacherCompileTrueOrFalse($data['topic'], $data['soleve_thinking'], $data['true_or_false_id'], $data['difficulty'], $data['class_num'], $class_name, $data['answer'])) {
-            return $this->success('修改试题成功！','teacherTestQuestionsManage');
+            return $this->success('修改试题成功！', 'teacherTestQuestionsManage');
         } else {
             return $this->error('修改试题失败！');
         }
@@ -233,6 +235,49 @@ class Teacher extends Controller
         $this->assign('class_name', $class_name);
         $this->assign('single_choice', $single_choice);
         $this->assign('true_or_false', $true_or_false);
+        $this->assign('class_num', $class_num);
         return $this->fetch('');
+    }
+
+    /*--------------------------------------试卷库管理--------------------------------------*/
+    public function teacherAddPaperSearch()      //教师添加试卷搜索课堂页面
+    {
+        $this->teacherFindSelfClass();      //查找自己的课堂
+        return $this->fetch('');
+    }
+
+    public function teacherAddPaperIndex()      //教师添加试卷页面
+    {
+        $this->teacherFindTestQuestions();
+        return $this->fetch('');
+    }
+
+    public function teacherAddPaper()       //教师添加试卷
+    {
+        if(input('paper_name') == null) {
+            return $this->error('请输入试卷名称');
+        }
+        $paper_name = input('paper_name');
+        $class_num = input('class_num');
+        $single_choice_str = '';
+        $true_or_false_str = '';
+        if(isset(input()['single_choice'])) {
+            $single_choice = input()['single_choice'];
+            foreach($single_choice as $i) {
+                $single_choice_str = $single_choice_str . $i . '|';
+            }
+        }
+        if(isset(input()['true_or_false'])) {
+            $true_or_false = input()['true_or_false'];
+            foreach($true_or_false as $i) {
+                $true_or_false_str = $true_or_false_str . $i . '|';
+            }
+        }
+        $tool = new Tool();
+        $class = $tool->classNumFindClass($class_num);
+        $teacher = model('Teacher');
+        if($teacher->teacherAddPaper($paper_name, $class['teacher'], $class['teacher_num'], $class['class_name'], $class_num, $single_choice_str, $true_or_false_str)) {
+            return $this->success('添加试题成功！');
+        }
     }
 }

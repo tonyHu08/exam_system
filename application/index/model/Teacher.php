@@ -76,9 +76,9 @@ class Teacher extends Model
     }
 
     //教师编辑判断题
-    public function teacherCompileTrueOrFalse($topic, $soleve_thinking,  $true_or_false_id, $difficulty, $class_num, $class_name, $answer)
+    public function teacherCompileTrueOrFalse($topic, $soleve_thinking, $true_or_false_id, $difficulty, $class_num, $class_name, $answer)
     {
-        $info = db('true_or_false')->where('true_or_false_id', $true_or_false_id)->update(['topic' => $topic, 'soleve_thinking' => $soleve_thinking,  'difficulty' => $difficulty, 'class_num' => $class_num, 'class_name' => $class_name, 'answer' => $answer]);
+        $info = db('true_or_false')->where('true_or_false_id', $true_or_false_id)->update(['topic' => $topic, 'soleve_thinking' => $soleve_thinking, 'difficulty' => $difficulty, 'class_num' => $class_num, 'class_name' => $class_name, 'answer' => $answer]);
         return $info;
     }
 
@@ -87,6 +87,22 @@ class Teacher extends Model
     {
         $info = db('class')->where('teacher_num', $teacher_num)->select();
         return $info;
+    }
+
+
+    /*--------------------------------------试卷库管理--------------------------------------*/
+
+    //教师添加试卷
+    public function teacherAddPaper($paper_name, $teacher_name, $teacher_num, $class_name, $class_num, $single_choice, $true_or_false)
+    {
+        $info = db('paper')->insert(['paper_name' => $paper_name, 'teacher_name' => $teacher_name, 'teacher_num' => $teacher_num, 'class_name' => $class_name, 'class_num' => $class_num, 'single_choice' => $single_choice, 'true_or_false' => $true_or_false]);
+        return $info;
+    }
+
+    //教师查找试卷
+    public function teacherFindPaper()
+    {
+        
     }
 
 }

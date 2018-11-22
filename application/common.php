@@ -10,3 +10,11 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+
+function pe($param){
+    echo "<pre>";
+    header("Content-type:text/html;charset=utf-8");
+    print_r($param);
+    echo '<br />';
+    exit;
+}

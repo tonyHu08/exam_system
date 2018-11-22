@@ -138,10 +138,32 @@ class Tool extends Model
         return $info;
     }
 
+    //根据单选题id查找单选题
+    public function singleChoiceIdFindSingleChoice($single_choice_id)
+    {
+        $info = db('single_choice')->where('single_choice_id',$single_choice_id)->find();
+        return $info;
+    }
+
+    //根据单选题id查找单选题
+    public function trueOrFalseIdFindTrueOrFalse($true_or_false_id)
+    {
+        $info = db('true_or_false')->where('true_or_false_id',$true_or_false_id)->find();
+        return $info;
+    }
+
     //根据课程号查找判断题
     public function classNumFindTrueOrFalse($class_num)
     {
         $info = db('true_or_false')->where('class_num', $class_num)->select();
         return $info;
     }
+
+    //根据试卷号查找试卷信息
+    public function paperNumFindPaper($paper_num)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->find();
+        return $info;
+    }
+
 }

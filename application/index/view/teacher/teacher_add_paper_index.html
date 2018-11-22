@@ -9,7 +9,7 @@
         <table class="table table-bordered" style="width:80%;box-shadow: 2px 2px 5px #999999;background-color: white;">
             <tr>
                 <th width="30px">
-                    <input type="checkbox" name="allcheck" id="allcheck" onclick="checkall()">
+                    <input type="checkbox" name="allcheck" id="single_all_check" onclick="single_choice_check_all()">
                 </th>
                 <th>
                     题目
@@ -36,7 +36,7 @@
         <table class="table table-bordered" style="width:80%;box-shadow: 2px 2px 5px #999999;background-color: white;">
             <tr>
                 <th width="30px">
-
+                    <input type="checkbox" name="allcheck" id="true_or_false_all_check" onclick="true_or_false_check_all()">
                 </th>
                 <th>
                     题目
@@ -48,7 +48,7 @@
             {volist name="true_or_false" id="tof"}
             <tr>
                 <td>
-                    <input type="checkbox" value="{$tof.true_or_false_id}" class="checkbox" name="true_or_false[{$key}]">
+                    <input type="checkbox" value="{$tof.true_or_false_id}" class="checkbox true_or_false" name="true_or_false[{$key}]">
                 </td>
                 <td>
                     {$tof.topic}

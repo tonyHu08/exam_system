@@ -15,6 +15,7 @@ class Teacher extends Controller
     public function index()
     {
         if(session('identity') == 1) {      //判断是否为合法登录
+            $this->assign('title','教师中心-首页');
             return $this->fetch('');
         } else {
             return $this->error('身份认证错误，请重新登陆！');
@@ -28,6 +29,7 @@ class Teacher extends Controller
         $teacher_model = model('Teacher');
         $class_info = $teacher_model->teacherFindSelfClass(session('num'));
         $this->assign('class_info', $class_info);
+        $this->assign('title','教师中心-添加单选题');
         return $this->fetch('');
     }
 
@@ -68,6 +70,7 @@ class Teacher extends Controller
         $teacher_model = model('Teacher');
         $class_info = $teacher_model->teacherFindSelfClass(session('num'));
         $this->assign('class_info', $class_info);
+        $this->assign('title','教师中心-添加判断题');
         return $this->fetch('');
     }
 
@@ -106,6 +109,7 @@ class Teacher extends Controller
         $this->assign('single_choice', $single_choice);     //当前教师单选题题目
         $true_or_false = $teacher_model->teacherTrueOrFalse(session('num'));
         $this->assign('true_or_false', $true_or_false);
+        $this->assign('title','教师中心-管理题目');
         return $this->fetch('');
     }
 
@@ -133,6 +137,7 @@ class Teacher extends Controller
 
         $single_choice_info = $teacher_model->teacherCompileSingleChoiceIndex($single_choice_id);
         $this->assign('single_choice_info', $single_choice_info);
+        $this->assign('title','教师中心-编辑单选题');
         return $this->fetch('');
     }
 
@@ -179,7 +184,7 @@ class Teacher extends Controller
         }
     }
 
-    //教师编辑单选题主页
+    //教师编辑判断题主页
     public function teacherCompileTrueOrFalseIndex()
     {
         $true_or_false_id = input('id');
@@ -189,6 +194,7 @@ class Teacher extends Controller
 
         $true_or_false_info = $teacher_model->teacherCompileTrueOrFalseIndex($true_or_false_id);
         $this->assign('true_or_false_info', $true_or_false_info);
+        $this->assign('title','教师中心-编辑判断题');
         return $this->fetch('');
     }
 
@@ -226,7 +232,6 @@ class Teacher extends Controller
         if($teacher_model->teacherFindSelfClass(session('num'))) {
             $class_info = $teacher_model->teacherFindSelfClass(session('num'));
             $this->assign('class_info', $class_info);
-            return $this->fetch('');
         } else {
             return $this->error('没有课堂！');
         }
@@ -236,6 +241,7 @@ class Teacher extends Controller
     public function teacherFindTestQuestionsIndex()
     {
         $this->teacherFindSelfClass();
+        $this->assign('title','教师中心-查询课堂题库');
         return $this->fetch('');
     }
 
@@ -251,6 +257,7 @@ class Teacher extends Controller
         $this->assign('single_choice', $single_choice);
         $this->assign('true_or_false', $true_or_false);
         $this->assign('class_num', $class_num);
+        $this->assign('title','教师中心-试题');
         return $this->fetch('');
     }
 
@@ -260,6 +267,7 @@ class Teacher extends Controller
     public function teacherAddPaperSearch()
     {
         $this->teacherFindSelfClass();      //查找自己的课堂
+        $this->assign('title','教师中心-添加试卷');
         return $this->fetch('');
     }
 
@@ -317,6 +325,7 @@ class Teacher extends Controller
         $teacher_model = model('Teacher');
         $paper = $teacher_model->teacherFindSelfPaper(session('num'));
         $this->assign('paper', $paper);
+        $this->assign('title','教师中心-查找试卷');
         return $this->fetch('');
     }
 
@@ -356,6 +365,7 @@ class Teacher extends Controller
         $true_or_false_not_exist_in_paper = array_values($true_or_false_in_class);
         $this->assign('true_or_false_option',$true_or_false_not_exist_in_paper);
 
+        $this->assign('title','教师中心-查找试卷');
         return $this->fetch('');
     }
 
@@ -376,6 +386,7 @@ class Teacher extends Controller
     {
         $teacher_model = model('Teacher');
         $this->assign('paper',$teacher_model->teacherFindDeletedPaper(session('num')));
+        $this->assign('title','教师中心-已删除试卷');
         return $this->fetch('');
     }
 

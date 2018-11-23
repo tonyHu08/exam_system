@@ -10,11 +10,11 @@
         <th>学生姓名</th>
         {volist name="student" id="student" key="k"}
         <tr>
-            <td align="center"><input type="checkbox" value="{$student.num}" name="student_num[{$k}]"></td>
+            <td align="center" width="10px"><input type="checkbox" value="{$student.num}" name="student_num[{$k}]"></td>
             <td width="70%">{$student.username}</td>
         </tr>
         {/volist}
     </table>
-    <button type="submit" value="{$class_info.class_num}" name="class_num" class="btn-default">添加</button>
+    <button type="submit" value="{$class_info.class_num}" name="class_num" class="btn btn-default">添加</button>
 </form>
 {/block}

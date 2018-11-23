@@ -15,6 +15,7 @@ class Admin extends Controller
     public function index()
     {
         if(session('identity') == 'admin') {      //判断是否为合法登录
+            $this->assign('title','管理员中心-主页');
             return $this->fetch('');
         } else {
             return $this->error('身份认证错误，请重新登陆！');
@@ -24,7 +25,7 @@ class Admin extends Controller
     /*--------------------------------------教师管理--------------------------------------*/
     public function adminAddTeacherIndex()      //管理员添加教师主页
     {
-        $this->assign('title', '添加教师');
+        $this->assign('title','管理员中心-添加教师');
         return $this->fetch('');
     }
 
@@ -57,7 +58,7 @@ class Admin extends Controller
         $tool = new Tool();
         $teacher = $tool->findNotBanTeacher();
         $this->assign('teacher', $teacher);
-        $this->assign('title', '停用教师');
+        $this->assign('title', '管理员中心-停用教师');
         return $this->fetch('');
     }
 
@@ -91,7 +92,7 @@ class Admin extends Controller
         $tool = new Tool();
         $teacher = $tool->findBanTeacher();
         $this->assign('teacher', $teacher);
-        $this->assign('title', '恢复教师');
+        $this->assign('title', '管理员中心-恢复教师');
         return $this->fetch('');
     }
 
@@ -125,7 +126,7 @@ class Admin extends Controller
         $tool = new Tool();
         $teacher = $tool->findAllTeacher();
         $this->assign('teacher', $teacher);
-        $this->assign('title', '查找教师');
+        $this->assign('title', '管理员中心-查找教师');
         return $this->fetch('');
     }
 
@@ -145,6 +146,7 @@ class Admin extends Controller
 
         $teacher_info = $admin->adminSearchTeacher($num);
         $this->assign('teacher_info', $teacher_info);
+        $this->assign('title', '管理员中心-查找教师');
         return $this->fetch('');
     }
 
@@ -152,7 +154,7 @@ class Admin extends Controller
 
     public function adminAddStudentIndex()      //管理员添加学生主页
     {
-        $this->assign('title', '添加学生');
+        $this->assign('title', '管理员中心-添加学生');
         return $this->fetch('');
     }
 
@@ -185,7 +187,7 @@ class Admin extends Controller
         $tool = new Tool();
         $student = $tool->findNotBanStudent();
         $this->assign('student', $student);
-        $this->assign('title', '停用学生');
+        $this->assign('title', '管理员中心-停用学生');
         return $this->fetch('');
     }
 
@@ -219,7 +221,7 @@ class Admin extends Controller
         $tool = new Tool();
         $student = $tool->findBanStudent();
         $this->assign('student', $student);
-        $this->assign('title', '恢复学生');
+        $this->assign('title', '管理员中心-恢复学生');
         return $this->fetch('');
     }
 
@@ -253,7 +255,7 @@ class Admin extends Controller
         $tool = new Tool();
         $student = $tool->findAllStudent();
         $this->assign('student', $student);
-        $this->assign('title', '查找学生');
+        $this->assign('title', '管理员中心-查找学生');
         return $this->fetch('');
     }
 
@@ -273,6 +275,7 @@ class Admin extends Controller
 
         $student_info = $admin->adminSearchStudent($num);
         $this->assign('student_info', $student_info);
+        $this->assign('title', '管理员中心-搜索学生');
         return $this->fetch('');
     }
 
@@ -282,7 +285,7 @@ class Admin extends Controller
     {
         $tool = new Tool();
         $this->assign('teacher', $tool->findAllTeacher());
-        $this->assign('title', '添加课堂');
+        $this->assign('title', '管理员中心-添加课堂');
         return $this->fetch('');
     }
 
@@ -338,13 +341,16 @@ class Admin extends Controller
         $func = input('func');
         switch($func) {
             case 'search':
-                $this->assign('title', '查询课堂信息');
+                $this->assign('title', '管理员中心-查询课堂信息');
+                $this->assign('inside_title', '查询课堂信息');
                 break;
             case 'compile':
-                $this->assign('title', '编辑课堂信息');
+                $this->assign('title', '管理员中心-编辑课堂信息');
+                $this->assign('inside_title', '编辑课堂信息');
                 break;
             case 'ban':
-                $this->assign('title', '停用课堂');
+                $this->assign('title', '管理员中心-停用课堂');
+                $this->assign('inside_title', '停用课堂');
                 break;
         }
         $tool = new Tool();
@@ -362,6 +368,7 @@ class Admin extends Controller
         if($class_info) {
             $this->assign('class_student', $class_student);
             $this->assign('class_info', $class_info);
+            $this->assign('title', '管理员中心-搜索课堂');
             return $this->fetch('');
         } else {
             return $this->error('查询不到此课程号');
@@ -411,6 +418,7 @@ class Admin extends Controller
         if($class_info) {
             $this->assign('student', $student);
             $this->assign('class_info', $class_info);
+            $this->assign('title', '管理员中心-添加课堂学生');
             return $this->fetch('');
         } else {
             return $this->error('查询不到此课程号');

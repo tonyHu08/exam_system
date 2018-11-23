@@ -17,8 +17,8 @@
         答案：{$tq.answer}<br>
         题目难度：{$tq.difficulty}<br>
         所属课堂：{$tq.class_name}<br>
-        <a href="{:url('Teacher/teacherDeleteSingleChoice')}?id={$tq.single_choice_id}">删除试题</a>
-        <a href="{:url('Teacher/teacherCompileSingleChoiceIndex')}?id={$tq.single_choice_id}">编辑试题</a>
+        <a href="{:url('Teacher/teacherDeleteSingleChoice')}?={$tq.single_choice_id}">删除试题</a>
+        <a href="{:url('Teacher/teacherCompileSingleChoiceIndex',['id'=>$tq.single_choice_id,'page'=>'tftq'])}}">编辑试题</a>
     </div>
     {/volist}
     {/eq}
@@ -36,7 +36,7 @@
         题目难度：{$tof.difficulty}<br>
         所属课堂：{$tof.class_name}<br>
         <a href="{:url('Teacher/teacherDeleteTrueOrFalse')}?id={$tof.true_or_false_id}">删除试题</a>
-        <a href="{:url('Teacher/teacherCompileTrueOrFalseIndex')}?id={$tof.true_or_false_id}">编辑试题</a>
+        <a href="{:url('Teacher/teacherCompileTrueOrFalseIndex',['id'=>$tq.single_choice_id,'page'=>'tftq'])}}">编辑试题</a>
     </div>
     {/volist}
     {/eq}

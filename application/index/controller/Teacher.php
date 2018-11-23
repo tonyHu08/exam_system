@@ -124,6 +124,8 @@ class Teacher extends Controller
     //教师编辑单选题主页
     public function teacherCompileSingleChoiceIndex()
     {
+        $page = input('page');      //判断请求页，将请求页信息传给编辑主页，做返回按钮
+        $this->assign('page', $page);
         $single_choice_id = input('id');
         $teacher_model = model('Teacher');
         $class_info = $teacher_model->teacherFindSelfClass(session('num'));
@@ -159,7 +161,7 @@ class Teacher extends Controller
         $teacher_model = model('Teacher');
         $class_name = $tool->classNumFindClass($data['class_num'])['class_name'];
         if($teacher_model->teacherCompileSingleChoice($data['topic'], $data['A'], $data['B'], $data['C'], $data['D'], $data['soleve_thinking'], $data['single_choice_id'], $data['difficulty'], $data['class_num'], $class_name, $data['answer'])) {
-            return $this->success('修改试题成功！', 'teacherTestQuestionsManage');
+            return $this->success('修改试题成功！');
         } else {
             return $this->error('修改试题失败！');
         }
@@ -211,7 +213,7 @@ class Teacher extends Controller
         $teacher_model = model('Teacher');
         //$topic, $soleve_thinking,  $true_or_false_id, $difficulty, $class_num, $class_name, $answer
         if($teacher_model->teacherCompileTrueOrFalse($data['topic'], $data['soleve_thinking'], $data['true_or_false_id'], $data['difficulty'], $data['class_num'], $class_name, $data['answer'])) {
-            return $this->success('修改试题成功！', 'teacherTestQuestionsManage');
+            return $this->success('修改试题成功！');
         } else {
             return $this->error('修改试题失败！');
         }
@@ -274,8 +276,13 @@ class Teacher extends Controller
         if(input('paper_name') == null) {
             return $this->error('请输入试卷名称');
         }
+        if(input('single_choice_score') == null || input('true_or_false_score') == null) {
+            return $this->error('请输入分数');
+        }
         $paper_name = input('paper_name');
         $class_num = input('class_num');
+        $single_choice_score = input('single_choice_score');
+        $true_or_false_score = input('true_or_false_score');
         $single_choice_str = '';
         $true_or_false_str = '';
         if(isset(input()['single_choice'])) {
@@ -283,7 +290,7 @@ class Teacher extends Controller
             foreach($single_choice as $i) {
                 $single_choice_str = $single_choice_str . $i . '|';
             }
-        }else{
+        } else {
             return $this->error('不能没有选择题');
         }
         if(isset(input()['true_or_false'])) {
@@ -291,13 +298,13 @@ class Teacher extends Controller
             foreach($true_or_false as $i) {
                 $true_or_false_str = $true_or_false_str . $i . '|';
             }
-        }else{
+        } else {
             return $this->error('不能没有判断题');
         }
         $tool = new Tool();
         $class = $tool->classNumFindClass($class_num);
         $teacher = model('Teacher');
-        if($teacher->teacherAddPaper($paper_name, $class['teacher'], $class['teacher_num'], $class['class_name'], $class_num, $single_choice_str, $true_or_false_str)) {
+        if($teacher->teacherAddPaper($paper_name, $class['teacher'], $class['teacher_num'], $class['class_name'], $class_num, $single_choice_str, $true_or_false_str, $single_choice_score, $true_or_false_score)) {
             return $this->success('添加试题成功！');
         } else {
             return $this->error('试题添加失败！');
@@ -319,22 +326,11 @@ class Teacher extends Controller
         $paper_num = input('paper_num');
         $tool = new Tool();
         $paper = $tool->paperNumFindPaper($paper_num);
-        $single_choice_arr = explode('|',$paper['single_choice']);
-        $single_choice = [];
-        foreach($single_choice_arr as $num => $i){
-            $single_choice[$num] = $tool->singleChoiceIdFindSingleChoice($i);
-        }
-        $single_choice = array_filter($single_choice);
-
-        $true_or_false_arr = explode('|',$paper['true_or_false']);
-        $true_or_false = [];
-        foreach($true_or_false_arr as $num => $i){
-            $true_or_false[$num] = $tool->trueOrFalseIdFindTrueOrFalse($i);
-        }
-        $true_or_false = array_filter($true_or_false);
-        $this->assign('paper',$paper);
-        $this->assign('single_choice',$single_choice);
-        $this->assign('true_or_false',$true_or_false);
+        $single_choice = $tool->singleChoiceStrToArr($paper['single_choice']);
+        $true_or_false = $tool->trueOrFalseStrToArr($paper['true_or_false']);
+        $this->assign('paper', $paper);
+        $this->assign('single_choice', $single_choice);
+        $this->assign('true_or_false', $true_or_false);
         return $this->fetch('');
     }
 
@@ -343,9 +339,61 @@ class Teacher extends Controller
     {
         $paper_num = input('paper_num');
         $teacher_model = model('Teacher');
-        if($teacher_model->teacherDeletePaper($paper_num)){
-            return $this->success('删除试题成功！','teacherFindPaperIndex');
+        if($teacher_model->teacherDeletePaper($paper_num)) {
+            return $this->success('删除试题成功！', 'teacherFindPaperIndex');
+        } else {
+            return $this->error('删除试题失败！');
+        }
+    }
+
+    //教师管理已删除的试卷主页
+    public function teacherDeletedManageIndex()
+    {
+        $teacher_model = model('Teacher');
+        $this->assign('paper',$teacher_model->teacherFindDeletedPaper(session('num')));
+        return $this->fetch('');
+    }
+
+    //教师管理已删除的试卷
+    public function teacherDeletedManage()
+    {
+        $paper_num = input('paper_num');
+        $teacher_model = model('Teacher');
+        if($teacher_model->teacherRecoverPaper($paper_num)) {
+            return $this->success('恢复试卷成功！');
         }else{
+            return $this->error('恢复试卷失败！');
+        }
+    }
+
+    //教师删除试卷中的选择题
+    public function teacherDeleteSingleChoiceInPaper()
+    {
+        $paper_num = input('paper_num');
+        $single_choice_id = input('single_choice_id');
+        $tool = new Tool();
+        $paper = $tool->paperNumFindPaper($paper_num);
+        $single_choice = str_replace($single_choice_id . '|', '', $paper['single_choice']);
+        $teacher_model = model('Teacher');
+        if($teacher_model->teacherUpdatePaperSingleChoice($paper_num, $single_choice)) {
+            return $this->success('删除试题成功！');
+        } else {
+            return $this->error('删除试题失败！');
+        }
+    }
+
+    //教师删除试卷中的判断题
+    public function teacherDeleteTrueOrFalseInPaper()
+    {
+        $paper_num = input('paper_num');
+        $true_or_false_id = input('true_or_false_id');
+        $tool = new Tool();
+        $paper = $tool->paperNumFindPaper($paper_num);
+        $true_or_false = str_replace($true_or_false_id . '|', '', $paper['true_or_false']);
+        $teacher_model = model('Teacher');
+        if($teacher_model->teacherUpdatePaperTrueOrFalse($paper_num, $true_or_false)) {
+            return $this->success('删除试题成功！');
+        } else {
             return $this->error('删除试题失败！');
         }
     }

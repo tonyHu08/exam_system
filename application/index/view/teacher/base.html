@@ -45,9 +45,7 @@
 
     <title>管理员</title>
     <style>
-        input {
-            margin: 5px;
-        }
+
 
         /* 超链接的下划线 */
         a:link, a:visited {
@@ -384,7 +382,7 @@
                                 </font>
                             </div>
                             <div style="margin-top: 10px;">
-                                <a href="{:url('Teacher/teacherFindTestQuestionsIndex')}">查询题库</a>
+                                <a href="{:url('Teacher/teacherFindTestQuestionsIndex')}">查询课堂题库</a>
                             </div>
                             <div style="margin-top: 20px;">
                                 <a href="{:url('Teacher/teacherAddSingleChoiceIndex')}">添加单选题</a>
@@ -421,7 +419,7 @@
                                 <a href="">管理试卷</a>
                             </div>
                             <div style="margin-top: 20px;">
-                                <a href="">已删除试卷</a>
+                                <a href="{:url('Teacher/teacherDeletedManageIndex')}">已删除试卷</a>
                             </div>
                         </div>
                     </td>

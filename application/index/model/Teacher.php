@@ -93,9 +93,12 @@ class Teacher extends Model
     /*--------------------------------------试卷库管理--------------------------------------*/
 
     //教师添加试卷
-    public function teacherAddPaper($paper_name, $teacher_name, $teacher_num, $class_name, $class_num, $single_choice, $true_or_false)
+    public function teacherAddPaper($paper_name, $teacher_name, $teacher_num, $class_name, $class_num, $single_choice, $true_or_false, $single_choice_score, $true_or_false_score)
     {
-        $info = db('paper')->insert(['paper_name' => $paper_name, 'teacher_name' => $teacher_name, 'teacher_num' => $teacher_num, 'class_name' => $class_name, 'class_num' => $class_num, 'single_choice' => $single_choice, 'true_or_false' => $true_or_false, 'del' => 0]);
+        $info = db('paper')->insert(['paper_name' => $paper_name, 'teacher_name' => $teacher_name,
+            'teacher_num' => $teacher_num, 'class_name' => $class_name, 'class_num' => $class_num,
+            'single_choice' => $single_choice, 'true_or_false' => $true_or_false, 'del' => 0,
+            'single_choice_score' => $single_choice_score, 'true_or_false_score' => $true_or_false_score]);
         return $info;
     }
 
@@ -110,6 +113,34 @@ class Teacher extends Model
     public function teacherDeletePaper($paper_num)
     {
         $info = db('paper')->where('paper_num', $paper_num)->update(['del' => 1]);
+        return $info;
+    }
+
+    //教师恢复试卷
+    public function teacherRecoverPaper($paper_num)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['del' => 0]);
+        return $info;
+    }
+
+    //教师查找已删除的试卷
+    public function teacherFindDeletedPaper($teacher_num)
+    {
+        $info = db('paper')->where('teacher_num', $teacher_num)->where('del', 1)->select();
+        return $info;
+    }
+
+    //教师更改试卷中包含的判断题
+    public function teacherUpdatePaperTrueOrFalse($paper_num,$true_or_false)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['true_or_false' => $true_or_false]);
+        return $info;
+    }
+
+    //教师更改试卷中包含的选择题
+    public function teacherUpdatePaperSingleChoice($paper_num,$single_choice)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['single_choice' => $single_choice]);
         return $info;
     }
 

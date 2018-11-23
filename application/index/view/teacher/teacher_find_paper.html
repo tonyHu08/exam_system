@@ -3,7 +3,7 @@
 <h2>{$paper.paper_name}</h2>
 <a href="{:url('Teacher/teacherDeletePaper',['paper_num'=>$paper.paper_num])}" class="btn btn-danger">删除试卷</a>
 <div style="width: 100%;overflow: hidden;">
-    <h3>单选题</h3>
+    <h3>单选题(每题{$paper.single_choice_score}分)</h3>
     {volist name="single_choice" id="tq" key="k"}
     <div class="test_questions">
         <h4 class="topic">{$key+1}：{$tq.topic}</h4>
@@ -15,13 +15,13 @@
         答案：{$tq.answer}<br>
         题目难度：{$tq.difficulty}<br>
         所属课堂：{$tq.class_name}<br>
-        <a href="{:url('Teacher/teacherDeleteSingleChoiceInPaper')}?id={$tq.single_choice_id}">删除试题</a>
-        <a href="{:url('Teacher/teacherCompileSingleChoiceIndex')}?id={$tq.single_choice_id}">编辑试题</a>
+        <a href="{:url('Teacher/teacherDeleteSingleChoiceInPaper',['single_choice_id'=>$tq.single_choice_id,'paper_num'=>$paper.paper_num])}">删除试题</a>
+        <a href="{:url('Teacher/teacherCompileSingleChoiceIndex',['id'=>$tq.single_choice_id,'page'=>'teacherFindPaper'])}">编辑试题</a>
     </div>
     {/volist}
 </div>
 <div style="width: 100%">
-    <h3>判断题</h3>
+    <h3>判断题(每题{$paper.true_or_false_score}分)</h3>
     {volist name="true_or_false" id="tof" key="k"}
     <div class="test_questions" style="height: 180px">
         <h4 class="topic">{$key+1}：{$tof.topic}</h4>
@@ -29,8 +29,8 @@
         答案：{$tof.answer}<br>
         题目难度：{$tof.difficulty}<br>
         所属课堂：{$tof.class_name}<br>
-        <a href="{:url('Teacher/teacherDeleteTrueOrFalseInPaper')}?id={$tof.true_or_false_id}">删除试题</a>
-        <a href="{:url('Teacher/teacherCompileTrueOrFalseIndex')}?id={$tof.true_or_false_id}">编辑试题</a>
+        <a href="{:url('Teacher/teacherDeleteTrueOrFalseInPaper',['true_or_false_id'=>$tof.true_or_false_id,'paper_num'=>$paper.paper_num])}">删除试题</a>
+        <a href="{:url('Teacher/teacherCompileTrueOrFalseIndex',['id'=>$tq.single_choice_id,'page'=>'teacherFindPaper'])}">编辑试题</a>
     </div>
     {/volist}
 </div>

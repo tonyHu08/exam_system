@@ -144,4 +144,17 @@ class Teacher extends Model
         return $info;
     }
 
+    //教师修改单选题分数
+    public function teacherChangeSingleChoiceScore($paper_num, $single_choice_score)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['single_choice_score' => $single_choice_score]);
+        return $info;
+    }
+
+    //教师修改判断题分数
+    public function teacherChangeTrueOrFalseScore($paper_num, $true_or_false_score)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['true_or_false_score' => $true_or_false_score]);
+        return $info;
+    }
 }

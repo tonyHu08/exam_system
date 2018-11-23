@@ -331,6 +331,31 @@ class Teacher extends Controller
         $this->assign('paper', $paper);
         $this->assign('single_choice', $single_choice);
         $this->assign('true_or_false', $true_or_false);
+
+        //查找当前试卷没有的选择题
+        $single_choice_in_class = $tool->classNumFindSingleChoice($paper['class_num']);
+        foreach($single_choice_in_class as $num => $i){
+            foreach($single_choice as $j) {
+                if($i['single_choice_id']  == $j['single_choice_id']) {
+                    unset($single_choice_in_class[$num]);
+                }
+            }
+        }
+        $single_choice_not_exist_in_paper = array_values($single_choice_in_class);
+        $this->assign('single_choice_option',$single_choice_not_exist_in_paper);
+
+        //查找当前试卷没有的判断题
+        $true_or_false_in_class = $tool->classNumFindTrueOrFalse($paper['class_num']);
+        foreach($true_or_false_in_class as $num => $i){
+            foreach($true_or_false as $j) {
+                if($i['true_or_false_id']  == $j['true_or_false_id']) {
+                    unset($true_or_false_in_class[$num]);
+                }
+            }
+        }
+        $true_or_false_not_exist_in_paper = array_values($true_or_false_in_class);
+        $this->assign('true_or_false_option',$true_or_false_not_exist_in_paper);
+
         return $this->fetch('');
     }
 
@@ -395,6 +420,80 @@ class Teacher extends Controller
             return $this->success('删除试题成功！');
         } else {
             return $this->error('删除试题失败！');
+        }
+    }
+
+    //教师给试卷添加单选题
+    public function teacherAddSingleChoiceInPaper()
+    {
+        $paper_num = input('paper_num');
+        $single_choice_str = '';
+        if(isset(input()['single_choice'])) {
+            $single_choice = input()['single_choice'];
+            foreach($single_choice as $i) {
+                $single_choice_str = $single_choice_str . $i . '|';
+            }
+        } else {
+            return $this->error('请选择要添加的题');
+        }
+        $teacher_model = model('Teacher');
+        $tool = new Tool();
+        $paper = $tool->paperNumFindPaper($paper_num);
+        $single_choice_str = $paper['single_choice'].$single_choice_str;
+        if($teacher_model->teacherUpdatePaperSingleChoice($paper_num, $single_choice_str)) {
+            return $this->success('添加试题成功！');
+        } else {
+            return $this->error('添加试题失败！');
+        }
+    }
+
+    //教师给试卷添加判断题
+    public function teacherAddTrueOrFalseInPaper()
+    {
+        $paper_num = input('paper_num');
+        $true_or_false_str = '';
+        if(isset(input()['true_or_false'])) {
+            $true_or_false = input()['true_or_false'];
+            foreach($true_or_false as $i) {
+                $true_or_false_str = $true_or_false_str . $i . '|';
+            }
+        } else {
+            return $this->error('请选择要添加的题');
+        }
+        $teacher_model = model('Teacher');
+        $tool = new Tool();
+        $paper = $tool->paperNumFindPaper($paper_num);
+        $true_or_false_str = $paper['true_or_false'].$true_or_false_str;
+        if($teacher_model->teacherUpdatePaperTrueOrFalse($paper_num, $true_or_false_str)) {
+            return $this->success('添加试题成功！');
+        } else {
+            return $this->error('添加试题失败！');
+        }
+    }
+
+    //教师修改单选题分数
+    public function teacherChangeSingleChoiceScore()
+    {
+        $paper_num = input('paper_num');
+        $single_choice_score = input('single_choice_score');
+        $teacher_model = model('Teacher');
+        if($teacher_model->teacherChangeSingleChoiceScore($paper_num, $single_choice_score)){
+            return $this->success('修改成功！');
+        }else{
+            return $this->error('修改失败！');
+        }
+    }
+
+    //教师修改判断题分数
+    public function teacherChangeTrueOrFalseScore()
+    {
+        $paper_num = input('paper_num');
+        $true_or_false_score = input('true_or_false_score');
+        $teacher_model = model('Teacher');
+        if($teacher_model->teacherChangeTrueOrFalseScore($paper_num, $true_or_false_score)){
+            return $this->success('修改成功！');
+        }else{
+            return $this->error('修改失败！');
         }
     }
 }

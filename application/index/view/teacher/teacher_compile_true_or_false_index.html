@@ -1,7 +1,7 @@
 {extend name="teacher/base"}
 {block name="body"}
 <h2>
-    添加判断题
+    编辑判断题
 </h2>
 <form action="{:url('Teacher/teacherCompileTrueOrFalse')}">
     <a href="{:url('Teacher/teacherTestQuestionsManage')}"><--返回</a><br>
@@ -29,6 +29,6 @@
         <option value="{$class.class_num}">{$class.class_name}</option>
         {/volist}
     </select>
-    <button name="true_or_false_id" type="submit" value="{$true_or_false_info.true_or_false_id}" class="btn-danger">提交</button>
+    <button name="true_or_false_id" type="submit" value="{$true_or_false_info.true_or_false_id}" class="btn btn-danger">提交</button>
 </form>
 {/block}

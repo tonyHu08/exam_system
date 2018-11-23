@@ -76,9 +76,9 @@ class Teacher extends Model
     }
 
     //教师编辑判断题
-    public function teacherCompileTrueOrFalse($topic, $soleve_thinking,  $true_or_false_id, $difficulty, $class_num, $class_name, $answer)
+    public function teacherCompileTrueOrFalse($topic, $soleve_thinking, $true_or_false_id, $difficulty, $class_num, $class_name, $answer)
     {
-        $info = db('true_or_false')->where('true_or_false_id', $true_or_false_id)->update(['topic' => $topic, 'soleve_thinking' => $soleve_thinking,  'difficulty' => $difficulty, 'class_num' => $class_num, 'class_name' => $class_name, 'answer' => $answer]);
+        $info = db('true_or_false')->where('true_or_false_id', $true_or_false_id)->update(['topic' => $topic, 'soleve_thinking' => $soleve_thinking, 'difficulty' => $difficulty, 'class_num' => $class_num, 'class_name' => $class_name, 'answer' => $answer]);
         return $info;
     }
 
@@ -89,4 +89,72 @@ class Teacher extends Model
         return $info;
     }
 
+
+    /*--------------------------------------试卷库管理--------------------------------------*/
+
+    //教师添加试卷
+    public function teacherAddPaper($paper_name, $teacher_name, $teacher_num, $class_name, $class_num, $single_choice, $true_or_false, $single_choice_score, $true_or_false_score)
+    {
+        $info = db('paper')->insert(['paper_name' => $paper_name, 'teacher_name' => $teacher_name,
+            'teacher_num' => $teacher_num, 'class_name' => $class_name, 'class_num' => $class_num,
+            'single_choice' => $single_choice, 'true_or_false' => $true_or_false, 'del' => 0,
+            'single_choice_score' => $single_choice_score, 'true_or_false_score' => $true_or_false_score]);
+        return $info;
+    }
+
+    //教师查找自己的所有试卷
+    public function teacherFindSelfPaper($teacher_num)
+    {
+        $info = db('paper')->where('teacher_num', $teacher_num)->where('del', 0)->select();
+        return $info;
+    }
+
+    //教师删除试卷
+    public function teacherDeletePaper($paper_num)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['del' => 1]);
+        return $info;
+    }
+
+    //教师恢复试卷
+    public function teacherRecoverPaper($paper_num)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['del' => 0]);
+        return $info;
+    }
+
+    //教师查找已删除的试卷
+    public function teacherFindDeletedPaper($teacher_num)
+    {
+        $info = db('paper')->where('teacher_num', $teacher_num)->where('del', 1)->select();
+        return $info;
+    }
+
+    //教师更改试卷中包含的判断题
+    public function teacherUpdatePaperTrueOrFalse($paper_num,$true_or_false)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['true_or_false' => $true_or_false]);
+        return $info;
+    }
+
+    //教师更改试卷中包含的选择题
+    public function teacherUpdatePaperSingleChoice($paper_num,$single_choice)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['single_choice' => $single_choice]);
+        return $info;
+    }
+
+    //教师修改单选题分数
+    public function teacherChangeSingleChoiceScore($paper_num, $single_choice_score)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['single_choice_score' => $single_choice_score]);
+        return $info;
+    }
+
+    //教师修改判断题分数
+    public function teacherChangeTrueOrFalseScore($paper_num, $true_or_false_score)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['true_or_false_score' => $true_or_false_score]);
+        return $info;
+    }
 }

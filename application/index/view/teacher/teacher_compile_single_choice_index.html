@@ -2,7 +2,8 @@
 {block name="body"}
 <h2>修改单选题</h2>
 <form action="{:url('Teacher/teacherCompileSingleChoice')}">
-    <a href="{:url('Teacher/teacherTestQuestionsManage')}"><--返回</a><br>
+    <input type="button" name="Submit" value="<--返回" onclick="javascript:history.back(1)" class="btn" style="background-color: rgba(0,0,0,0);"/>
+    <br>
     题目：<input type="text" name="topic" class="form-control" placeholder="输入题目" value="{$single_choice_info.topic}">
     A: <input type="text" name="A" class="form-control" placeholder="输入A选项" value="{$single_choice_info.A}">
     B: <input type="text" name="B" class="form-control" placeholder="输入B选项" value="{$single_choice_info.B}">

@@ -97,6 +97,7 @@ class Tool extends Controller
         $tool = model('Tool');
         return $tool->findAllClass();
     }
+    /*--------------------------------------课堂管理--------------------------------------*/
 
     public function classNumFindClass($class_num)     //根据课程号查找课程信息
     {
@@ -130,6 +131,55 @@ class Tool extends Controller
         $tool['true_or_false'] = $this->classNumFindTrueOrFalse($class_num);
         return $tool;
     }
+
+    public function singleChoiceIdFindSingleChoice($single_choice_id)       //根据单选题id查找单选题
+    {
+        $tool = model('Tool');
+        return $tool->singleChoiceIdFindSingleChoice($single_choice_id);
+    }
+
+    public function trueOrFalseIdFindTrueOrFalse($true_or_false_id)       //根据单选题id查找单选题
+    {
+        $tool = model('Tool');
+        return $tool->trueOrFalseIdFindTrueOrFalse($true_or_false_id);
+    }
+
+
+    /*--------------------------------------试卷库管理--------------------------------------*/
+    public function paperNumFindPaper($paper_num)       //根据试卷号查找试卷信息
+    {
+        $tool = model('Tool');
+        return $tool->paperNumFindPaper($paper_num);
+    }
+
+    /*--------------------------------------将试卷库中的试题号字符串转为题信息数组--------------------------------------*/
+
+    //单选题
+    public function singleChoiceStrToArr($str)
+    {
+        $single_choice_arr = explode('|', $str);
+        $single_choice = [];
+        foreach($single_choice_arr as $num => $i) {
+            $single_choice[$num] = $this->singleChoiceIdFindSingleChoice($i);
+        }
+        $single_choice = array_filter($single_choice);
+        return $single_choice;
+    }
+
+    //判断题
+    public function trueOrFalseStrToArr($str)
+    {
+        $true_or_false_arr = explode('|', $str);
+        $true_or_false = [];
+        foreach($true_or_false_arr as $num => $i) {
+            $true_or_false[$num] = $this->trueOrFalseIdFindTrueOrFalse($i);
+        }
+        $true_or_false = array_filter($true_or_false);
+        return $true_or_false;
+    }
+
+
+
 
     public function sendMail()         //发送邮件
     {

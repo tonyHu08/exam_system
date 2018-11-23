@@ -32,6 +32,8 @@
             </tr>
             {/volist}
         </table>
+        单选题分数：
+        <input type="number" name="single_choice_score" class="form-control" placeholder="输入每道单选题的分数" style="width: 80%;"/>
         <h3>判断题</h3>
         <table class="table table-bordered" style="width:80%;box-shadow: 2px 2px 5px #999999;background-color: white;">
             <tr>
@@ -59,6 +61,8 @@
             </tr>
             {/volist}
         </table>
+        判断题分数：
+        <input type="number" name="true_or_false_score" class="form-control" placeholder="输入每道判断题的分数" style="width: 80%;"/>
         <button type="submit" class="btn btn-default" name="class_num" value="{$class_num}">提交</button>
     </form>
 </div>

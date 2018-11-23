@@ -152,6 +152,32 @@ class Tool extends Controller
         return $tool->paperNumFindPaper($paper_num);
     }
 
+    /*--------------------------------------将试卷库中的试题号字符串转为题信息数组--------------------------------------*/
+
+    //单选题
+    public function singleChoiceStrToArr($str)
+    {
+        $single_choice_arr = explode('|', $str);
+        $single_choice = [];
+        foreach($single_choice_arr as $num => $i) {
+            $single_choice[$num] = $this->singleChoiceIdFindSingleChoice($i);
+        }
+        $single_choice = array_filter($single_choice);
+        return $single_choice;
+    }
+
+    //判断题
+    public function trueOrFalseStrToArr($str)
+    {
+        $true_or_false_arr = explode('|', $str);
+        $true_or_false = [];
+        foreach($true_or_false_arr as $num => $i) {
+            $true_or_false[$num] = $this->trueOrFalseIdFindTrueOrFalse($i);
+        }
+        $true_or_false = array_filter($true_or_false);
+        return $true_or_false;
+    }
+
 
 
 

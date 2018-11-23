@@ -1,6 +1,6 @@
 {extend name="admin/base" /}
 {block name="body"}
-<h4>{$title}</h4>
+<h4>{$inside_title}</h4>
 <form action="{:url('Admin/adminSearchClass')}">
     <select name="class_num" class="form-control">
         {volist name="class" id="c"}

@@ -152,6 +152,12 @@ class Tool extends Controller
         return $tool->paperNumFindPaper($paper_num);
     }
 
+    public function classNumFindPaper($class_num)
+    {
+        $tool = model('Tool');
+        return $tool->classNumFindPaper($class_num);
+    }
+
     /*--------------------------------------将试卷库中的试题号字符串转为题信息数组--------------------------------------*/
 
     //单选题

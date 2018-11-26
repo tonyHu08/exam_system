@@ -166,4 +166,11 @@ class Tool extends Model
         return $info;
     }
 
+    //根据课堂号查找该课堂下所有试卷
+    public function classNumFindPaper($class_num)
+    {
+        $info = db('paper')->where('class_num',$class_num)->select();
+        return $info;
+    }
+
 }

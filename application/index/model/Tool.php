@@ -173,4 +173,11 @@ class Tool extends Model
         return $info;
     }
 
+    //根据答卷号查找答卷
+    public function studentAnswerPaperIdFindPaper($student_answer_paper_id)
+    {
+        $info = db('student_answer_paper')->where('student_answer_paper_id',$student_answer_paper_id)->find();
+        return $info;
+    }
+
 }

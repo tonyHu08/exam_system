@@ -131,14 +131,14 @@ class Teacher extends Model
     }
 
     //教师更改试卷中包含的判断题
-    public function teacherUpdatePaperTrueOrFalse($paper_num,$true_or_false)
+    public function teacherUpdatePaperTrueOrFalse($paper_num, $true_or_false)
     {
         $info = db('paper')->where('paper_num', $paper_num)->update(['true_or_false' => $true_or_false]);
         return $info;
     }
 
     //教师更改试卷中包含的选择题
-    public function teacherUpdatePaperSingleChoice($paper_num,$single_choice)
+    public function teacherUpdatePaperSingleChoice($paper_num, $single_choice)
     {
         $info = db('paper')->where('paper_num', $paper_num)->update(['single_choice' => $single_choice]);
         return $info;
@@ -155,6 +155,13 @@ class Teacher extends Model
     public function teacherChangeTrueOrFalseScore($paper_num, $true_or_false_score)
     {
         $info = db('paper')->where('paper_num', $paper_num)->update(['true_or_false_score' => $true_or_false_score]);
+        return $info;
+    }
+
+    //教师根据试卷号查找学生试卷
+    public function teacherCheckStudentPaperSelectStudentPaper($paper_num)
+    {
+        $info = db('student_answer_paper')->where('paper_num', $paper_num)->select();
         return $info;
     }
 }

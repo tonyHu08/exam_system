@@ -105,7 +105,7 @@ class Student extends Controller
         $single_choice_answer = join('|',$single_choice_answer);
         $true_or_false_answer = join('|',$true_or_false_answer);
         $student_answer = $single_choice_answer.'-'.$true_or_false_answer;
-        if(!$student_model->insertStudentTestResult(session('num'),session('username'),$paper['class_num'],$paper['class_name'],$paper['teacher_num'],$paper['teacher_name'],$paper['paper_num'],$paper['paper_name'],$sum_score,$score,$student_answer)){
+        if(!$student_model->insertStudentTestResult(session('num'),session('username'),$paper['class_num'],$paper['class_name'],$paper['teacher_num'],$paper['teacher_name'],$paper['paper_num'],$paper['paper_name'],$sum_score,$score,$student_answer,$paper['single_choice'],$paper['true_or_false'])){
             return $this->error('上传失败！');
         }
         $this->assign('sum_score',$sum_score);

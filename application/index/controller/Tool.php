@@ -184,6 +184,13 @@ class Tool extends Controller
         return $true_or_false;
     }
 
+    //根据答卷号查找答卷
+    public function studentAnswerPaperIdFindPaper($student_answer_paper_id)
+    {
+        $tool = model('Tool');
+        return $tool->studentAnswerPaperIdFindPaper($student_answer_paper_id);
+    }
+
 
 
 

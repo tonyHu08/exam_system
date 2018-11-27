@@ -1,0 +1,47 @@
+<div style="width: 100%;height: 90px;border: gray 1px solid;margin-bottom: 10px;" id="ahead">
+    <!-- 图片 -->
+    <div class="a1" style="width: 15%;height: 100%;padding-left: 10px;float: left;">
+        <img src="__STATIC__/img/1.png" style="width: 100%;height: 100%;">
+    </div>
+
+    {eq name="null" value="$Think.session.username"}
+    <div style="width: 15%;height: 100%;float: left;text-align: center;line-height: 100px;">
+        欢迎使用在线考试系统！请登录
+    </div>
+    {else/}
+    <div style="width: 15%;height: 100%;float: left;text-align: center;line-height: 100px;">
+        欢迎！{:session('username')}
+    </div>
+    {/eq}
+
+
+    <!-- 登录注册 -->
+    <div class="a2" style="width: 40%;height: 100%;float: left">
+        <div style="float: left;text-align: center;margin-top: 39px;font-size: large;"
+             id="sidebar">
+            <a href="{:url('Index/index')}">💡首页&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a href="{:url('')}">🎐APP&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a href="{:url('')}">👫课堂共享👫&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;</a>
+            {eq name="null" value="$Think.session.username"}
+            <a href="{:url('Login/index')}">🤓登录&nbsp;&nbsp;&nbsp; &nbsp;</a>
+            <a href="{:url('Register/studentRegister')}">🧐注册&nbsp;</a>
+            {else/}
+            <a href="{:url('Student/studentExamIndex')}">🤓考试&nbsp;&nbsp;&nbsp; &nbsp;</a>
+            <a href="{:url('Tool/exitLogin')}">🤓退出&nbsp;&nbsp;&nbsp; &nbsp;</a>
+            {/eq}
+        </div>
+    </div>
+
+    <!-- 搜索框 -->
+
+    <div class="search bar7" style="width: 15%;height: 20px;float: left;text-align: center;">
+        <form>
+            <input type="text" placeholder="搜索考试课程 开课老师......">
+            <button type="button" class="btn btn-default" style="border: 0px">
+                <a href="#">
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+            </button>
+        </form>
+    </div>
+</div>

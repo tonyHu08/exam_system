@@ -12,6 +12,16 @@
             src="__STATIC__/js/ueditor/ueditor.all.js"></script>
 
     <script>
+        $(function () {
+
+            $('#a1').carousel({
+                interval: 3000
+            })
+
+        });
+    </script>
+
+    <script>
         function single_choice_check_all() {
             if ($("#single_all_check").is(":checked")) {
                 var objs = document.getElementsByClassName('single_choice');
@@ -41,6 +51,10 @@
                 }
             }
         }
+
+        function radio_choice(type, id, option) {
+            document.getElementById(type + '.' + id + '.' + option).checked = true;
+        }
     </script>
     <style>
 
@@ -64,30 +78,30 @@
             padding: 30px 0;
         }
 
-        #login_after_head form {
+        #ahead form {
             position: relative;
             width: 80%;
             margin: 0 auto;
         }
 
-        #login_after_head form {
+        #ahead form {
             position: relative;
             width: 300px;
             margin: 0 auto;
         }
 
-        #login_after_head input, button {
+        #ahead input, button {
             border: none;
             outline: none;
         }
 
-        #login_after_head input {
+        #ahead input {
             width: 100%;
             height: 42px;
             padding-left: 13px;
         }
 
-        #login_after_head button {
+        #ahead button {
             height: 50px;
             width: 50px;
             cursor: pointer;
@@ -186,7 +200,7 @@
         .test_questions {
             border: gray 0px solid;
             width: 80%;
-            height: 250px;
+            height: 260px;
             float: left;
             padding: 5px;
             margin-bottom: 10px;
@@ -198,21 +212,6 @@
     <style>
         a:link, a:visited {
             text-decoration: none; /*超链接无下划线*/
-        }
-
-        .hoverbg:hover {
-            background-color: #282828;
-            -webkit-transition: all 0.5s;
-            -moz-transition: all 0.5s;
-            -o-transition: all 0.5s;
-        }
-
-        .hoverbg:hover * {
-            color: whitesmoke;
-            font-size: 15px;
-            -webkit-transition: all 0.5s;
-            -moz-transition: all 0.5s;
-            -o-transition: all 0.5s;
         }
 
         .leftDiv {
@@ -298,19 +297,6 @@
             background-color: #f1f1f1;
         }
 
-        img {
-            -webkit-transition: all 0.6s;
-            -moz-transition: all 0.6s;
-            -o-transition: all 0.6s;
-        }
-
-        img:hover {
-            transform: scale(1.1);
-            -webkit-transition: all 0.6s;
-            -moz-transition: all 0.6s;
-            -o-transition: all 0.6s;
-        }
-
         #head {
             width: 100%;
             height: 35px;
@@ -340,100 +326,10 @@
 
 
 </head>
-<body style="min-width: 1300px;width: 100%;">
-{include file="public/login_after_head"}
-<div style="border: 0px solid red;width: 100%;height: 700px;float: left;margin-top: -40px">
-    <!-- 左边导航栏 -->
-    <div style="border: 0px solid blueviolet;width: 330px;height: 100%;float: left;">
+<body>
+{include file="public/head"}
 
-        <!-- 头像 -->
-        <div style="border: 0px dashed green;background-color: #23272b;color:pink;width: 150px;height: 155px;float: left;margin-top: 20px;margin-left: 30%;">
+{block name="body"}{/block}
 
-            <div style="height: 130px;" align="center">
-                <img class="img-circle" src="{:session('headimg')}" width="100px" height="100px"
-                     style="margin-top: 10px;">
-            </div>
-            <div style="border: 1px dashed pink;width: 100%;height: 20px;float: left;text-align: center">
-                {:session('username')}
-            </div>
-        </div>
-
-        <!-- 导航 -->
-        <div style="width: 75%;height: 430px;float: left;margin-left: 15%;margin-top:10%;border: #282828 1px solid;background: rgba(200,200,200,0.1);">
-            <table width="100%">
-                <tr class="hovertr">
-                    <td align="" width="100%" height="45px" bgcolor="#404040">
-                        <div style="margin-left: 13%;">
-                            <font color="#f5f5f5" size="4px">
-                                管理中心
-                            </font>
-                        </div>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td align="" width="100%" height="80px" class="hovertd">
-                        <div style="margin-left: 13%;">
-                            <div class="leftDiv">
-                                <font size="4px">
-                                    🖇️ 题库管理
-                                </font>
-                            </div>
-                            <div style="margin-top: 10px;">
-                                <a href="{:url('Teacher/teacherFindTestQuestionsIndex')}">查询课堂题库</a>
-                            </div>
-                            <div style="margin-top: 20px;">
-                                <a href="{:url('Teacher/teacherAddSingleChoiceIndex')}">添加单选题</a>
-                            </div>
-                            <div style="margin-top: 20px;">
-                                <a href="{:url('Teacher/teacherAddTrueOrFalseIndex')}">添加判断题</a>
-                            </div>
-                            <div style="margin-top: 20px;">
-                                <a href="{:url('Teacher/teacherTestQuestionsManage')}">管理试题</a>
-                            </div>
-                            <div style="margin-top: 20px;">
-                                <a href="{:url('Teacher/teacherTestQuestionsManage')}">删除试题</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-            <table width="100%">
-                <tr>
-                    <td align="" width="100%" height="80px" class="hovertd">
-                        <div style="margin-left: 13%;">
-                            <div class="leftDiv">
-                                <font size="4px">
-                                    🖇️ 试卷管理
-                                </font>
-                            </div>
-                            <div style="margin-top: 10px;">
-                                <a href="{:url('Teacher/teacherFindPaperIndex')}">查询试卷库</a>
-                            </div>
-                            <div style="margin-top: 20px;">
-                                <a href="{:url('Teacher/teacherAddPaperSearch')}">添加试卷</a>
-                            </div>
-                            <div style="margin-top: 20px;">
-                                <a href="{:url('Teacher/teacherCheckStudentPaperSelectPaper')}">阅卷</a>
-                            </div>
-                            <div style="margin-top: 20px;">
-                                <a href="{:url('Teacher/teacherDeletedManageIndex')}">已删除试卷</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <!-- 右边内容 -->
-    <div style="border: gray 0px solid;width: 75%;float: left;padding: 20px;overflow-y: auto;height: 100%;">
-        <div class="container" style="border: coral 0px solid;width: 100%;">
-            <div class="jumbotron" style="width: 100%;overflow: hidden;background-color: cornsilk;">
-                {block name="body"}{/block}
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 </html>

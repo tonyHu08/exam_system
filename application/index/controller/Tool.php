@@ -152,6 +152,12 @@ class Tool extends Controller
         return $tool->paperNumFindPaper($paper_num);
     }
 
+    public function classNumFindPaper($class_num)
+    {
+        $tool = model('Tool');
+        return $tool->classNumFindPaper($class_num);
+    }
+
     /*--------------------------------------将试卷库中的试题号字符串转为题信息数组--------------------------------------*/
 
     //单选题
@@ -176,6 +182,13 @@ class Tool extends Controller
         }
         $true_or_false = array_filter($true_or_false);
         return $true_or_false;
+    }
+
+    //根据答卷号查找答卷
+    public function studentAnswerPaperIdFindPaper($student_answer_paper_id)
+    {
+        $tool = model('Tool');
+        return $tool->studentAnswerPaperIdFindPaper($student_answer_paper_id);
     }
 
 

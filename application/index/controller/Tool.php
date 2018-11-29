@@ -125,10 +125,21 @@ class Tool extends Controller
         }
     }
 
+    public function classNumFindShortAnswer($class_num)
+    {
+        $tool = model('Tool');
+        if($tool->classNumFindShortAnswer($class_num)) {
+            return $tool->classNumFindShortAnswer($class_num);
+        }else{
+            return null;
+        }
+    }
+
     public function classNumFindAllTestQuestions($class_num)        //根据课程号查找所有题
     {
         $tool['single_choice'] = $this->classNumFindSingleChoice($class_num);
         $tool['true_or_false'] = $this->classNumFindTrueOrFalse($class_num);
+        $tool['short_answer'] = $this->classNumFindShortAnswer($class_num);
         return $tool;
     }
 
@@ -142,6 +153,12 @@ class Tool extends Controller
     {
         $tool = model('Tool');
         return $tool->trueOrFalseIdFindTrueOrFalse($true_or_false_id);
+    }
+
+    public function shortAnswerIdFindShortAnswer($short_answer_id)
+    {
+        $tool = model('Tool');
+        return $tool->shortAnswerIdFindShortAnswer($short_answer_id);
     }
 
 
@@ -182,6 +199,18 @@ class Tool extends Controller
         }
         $true_or_false = array_filter($true_or_false);
         return $true_or_false;
+    }
+
+    //简答题
+    public function shortAnswerStrToArr($str)
+    {
+        $short_answer_arr = explode('|', $str);
+        $short_answer = [];
+        foreach($short_answer_arr as $num => $i) {
+            $short_answer[$num] = $this->shortAnswerIdFindShortAnswer($i);
+        }
+        $short_answer = array_filter($short_answer);
+        return $short_answer;
     }
 
     //根据答卷号查找答卷

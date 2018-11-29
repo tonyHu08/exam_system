@@ -26,8 +26,16 @@ class Teacher extends Model
         return $info;
     }
 
+    //教师添加简答题
+    public function teacherAddShortAnswer($topic, $soleve_thinking, $teacher_name, $teacher_num, $difficulty, $class_num, $class_name)
+    {
+        $info = db('short_answer')->insert(['topic' => $topic, 'soleve_thinking' => $soleve_thinking, 'teacher_name' => $teacher_name, 'teacher_num' => $teacher_num, 'difficulty' => $difficulty, 'class_num' => $class_num, 'class_name' => $class_name]);
+        return $info;
+
+    }
+
     //教师查询选择题
-    public function teacherSingleChoiceManage($teacher_num)
+    public function teacherSingleChoice($teacher_num)
     {
         $info = db('single_choice')->where('teacher_num', $teacher_num)->select();
         return $info;
@@ -40,10 +48,31 @@ class Teacher extends Model
         return $info;
     }
 
+    //教师查询简答题
+    public function teacherShortAnswer($teacher_num)
+    {
+        $info = db('short_answer')->where('teacher_num', $teacher_num)->select();
+        return $info;
+    }
+
     //教师删除单选题题目
     public function teacherDeleteSingleChoice($single_choice_id)
     {
-        $info = db('single_choice')->where('single_choice_id', $single_choice_id)->delete();
+        $info = db('single_choice')->where('single_choice_id', $single_choice_id)->update(['delete' => 1]);
+        return $info;
+    }
+
+    //教师删除判断题题目
+    public function teacherDeleteTrueOrFalse($true_or_false_id)
+    {
+        $info = db('true_or_false')->where('true_or_false_id', $true_or_false_id)->update(['delete' => 1]);
+        return $info;
+    }
+
+    //教师删除简答题题目
+    public function teacherDeleteShortAnswer($short_answer_id)
+    {
+        $info = db('short_answer')->where('short_answer_id', $short_answer_id)->update(['delete' => 1]);
         return $info;
     }
 
@@ -61,12 +90,6 @@ class Teacher extends Model
         return $info;
     }
 
-    //教师删除判断题题目
-    public function teacherDeleteTrueOrFalse($true_or_false_id)
-    {
-        $info = db('true_or_false')->where('true_or_false_id', $true_or_false_id)->delete();
-        return $info;
-    }
 
     //教师编辑判断题主页
     public function teacherCompileTrueOrFalseIndex($true_or_false_id)
@@ -82,6 +105,20 @@ class Teacher extends Model
         return $info;
     }
 
+    //教师编辑简答题主页
+    public function teacherCompileShortAnswerIndex($short_answer_id)
+    {
+        $info = db('short_answer')->where('short_answer_id', $short_answer_id)->find();
+        return $info;
+    }
+
+    //教师编辑简答题
+    public function teacherCompileShortAnswer($topic, $soleve_thinking, $short_answer_id, $difficulty, $class_num, $class_name)
+    {
+        $info = db('short_answer')->where('short_answer_id', $short_answer_id)->update(['topic' => $topic, 'soleve_thinking' => $soleve_thinking, 'difficulty' => $difficulty, 'class_num' => $class_num, 'class_name' => $class_name]);
+        return $info;
+    }
+
     //教师查找自己的课堂
     public function teacherFindSelfClass($teacher_num)
     {
@@ -93,12 +130,13 @@ class Teacher extends Model
     /*--------------------------------------试卷库管理--------------------------------------*/
 
     //教师添加试卷
-    public function teacherAddPaper($paper_name, $teacher_name, $teacher_num, $class_name, $class_num, $single_choice, $true_or_false, $single_choice_score, $true_or_false_score)
+    public function teacherAddPaper($paper_name, $teacher_name, $teacher_num, $class_name, $class_num, $single_choice, $true_or_false, $short_answer, $single_choice_score, $true_or_false_score, $short_answer_score)
     {
         $info = db('paper')->insert(['paper_name' => $paper_name, 'teacher_name' => $teacher_name,
             'teacher_num' => $teacher_num, 'class_name' => $class_name, 'class_num' => $class_num,
-            'single_choice' => $single_choice, 'true_or_false' => $true_or_false, 'del' => 0,
-            'single_choice_score' => $single_choice_score, 'true_or_false_score' => $true_or_false_score]);
+            'single_choice' => $single_choice, 'true_or_false' => $true_or_false, 'short_answer' => $short_answer,
+            'del' => 0, 'single_choice_score' => $single_choice_score, 'true_or_false_score' => $true_or_false_score,
+            'short_answer_score' => $short_answer_score]);
         return $info;
     }
 
@@ -144,6 +182,13 @@ class Teacher extends Model
         return $info;
     }
 
+    //教师更改试卷中包含的简答题
+    public function teacherUpdatePaperShortAnswer($paper_num, $short_answer)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['short_answer' => $short_answer]);
+        return $info;
+    }
+
     //教师修改单选题分数
     public function teacherChangeSingleChoiceScore($paper_num, $single_choice_score)
     {
@@ -158,10 +203,24 @@ class Teacher extends Model
         return $info;
     }
 
+    //教师修改简答题分数
+    public function teacherChangeShortAnswerScore($paper_num, $short_answer_score)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['short_answer_score' => $short_answer_score]);
+        return $info;
+    }
+
     //教师根据试卷号查找学生试卷
     public function teacherCheckStudentPaperSelectStudentPaper($paper_num)
     {
         $info = db('student_answer_paper')->where('paper_num', $paper_num)->select();
+        return $info;
+    }
+
+    //教师给简答题判分
+    public function teacherModifShortAnswerScore($student_answer_paper_id,$short_answer_score)
+    {
+        $info = db('student_answer_paper')->where('student_answer_paper_id',$student_answer_paper_id)->update(['short_answer_score'=>$short_answer_score]);
         return $info;
     }
 }

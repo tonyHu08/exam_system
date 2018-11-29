@@ -4,7 +4,8 @@
     编辑判断题
 </h2>
 <form action="{:url('Teacher/teacherCompileTrueOrFalse')}">
-    <a href="{:url('Teacher/teacherTestQuestionsManage')}"><--返回</a><br>
+    <input type="button" name="Submit" value="<--返回" onclick="javascript:history.back(1)" class="btn" style="background-color: rgba(0,0,0,0);"/>
+    <br>
     题目：<input type="text" name="topic" class="form-control" placeholder="输入题目" value="{$true_or_false_info.topic}">
     解题思路：
     <textarea name="soleve_thinking" class="form-control" rows="4" placeholder="输入解题思路">{$true_or_false_info.soleve_thinking}</textarea>

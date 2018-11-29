@@ -41,6 +41,21 @@
                 }
             }
         }
+
+        function short_answer_check_all() {
+            if ($("#short_answer_all_check").is(":checked")) {
+                var objs = document.getElementsByClassName('short_answer');
+                console.log(objs);
+                for (var i = objs.length - 1; i >= 0; i--) {
+                    objs[i].checked = true;
+                }
+            } else {
+                var objs = document.getElementsByClassName('short_answer');
+                for (var i = objs.length - 1; i >= 0; i--) {
+                    objs[i].checked = false;
+                }
+            }
+        }
     </script>
     <style>
 

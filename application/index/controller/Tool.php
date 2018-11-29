@@ -201,6 +201,18 @@ class Tool extends Controller
         return $true_or_false;
     }
 
+    //简答题
+    public function shortAnswerStrToArr($str)
+    {
+        $short_answer_arr = explode('|', $str);
+        $short_answer = [];
+        foreach($short_answer_arr as $num => $i) {
+            $short_answer[$num] = $this->shortAnswerIdFindShortAnswer($i);
+        }
+        $short_answer = array_filter($short_answer);
+        return $short_answer;
+    }
+
     //根据答卷号查找答卷
     public function studentAnswerPaperIdFindPaper($student_answer_paper_id)
     {

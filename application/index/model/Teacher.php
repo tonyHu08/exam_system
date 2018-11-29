@@ -130,12 +130,13 @@ class Teacher extends Model
     /*--------------------------------------试卷库管理--------------------------------------*/
 
     //教师添加试卷
-    public function teacherAddPaper($paper_name, $teacher_name, $teacher_num, $class_name, $class_num, $single_choice, $true_or_false, $single_choice_score, $true_or_false_score)
+    public function teacherAddPaper($paper_name, $teacher_name, $teacher_num, $class_name, $class_num, $single_choice, $true_or_false, $short_answer, $single_choice_score, $true_or_false_score, $short_answer_score)
     {
         $info = db('paper')->insert(['paper_name' => $paper_name, 'teacher_name' => $teacher_name,
             'teacher_num' => $teacher_num, 'class_name' => $class_name, 'class_num' => $class_num,
-            'single_choice' => $single_choice, 'true_or_false' => $true_or_false, 'del' => 0,
-            'single_choice_score' => $single_choice_score, 'true_or_false_score' => $true_or_false_score]);
+            'single_choice' => $single_choice, 'true_or_false' => $true_or_false, 'short_answer' => $short_answer,
+            'del' => 0, 'single_choice_score' => $single_choice_score, 'true_or_false_score' => $true_or_false_score,
+            'short_answer_score' => $short_answer_score]);
         return $info;
     }
 
@@ -181,6 +182,13 @@ class Teacher extends Model
         return $info;
     }
 
+    //教师更改试卷中包含的简答题
+    public function teacherUpdatePaperShortAnswer($paper_num, $short_answer)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['short_answer' => $short_answer]);
+        return $info;
+    }
+
     //教师修改单选题分数
     public function teacherChangeSingleChoiceScore($paper_num, $single_choice_score)
     {
@@ -195,10 +203,24 @@ class Teacher extends Model
         return $info;
     }
 
+    //教师修改简答题分数
+    public function teacherChangeShortAnswerScore($paper_num, $short_answer_score)
+    {
+        $info = db('paper')->where('paper_num', $paper_num)->update(['short_answer_score' => $short_answer_score]);
+        return $info;
+    }
+
     //教师根据试卷号查找学生试卷
     public function teacherCheckStudentPaperSelectStudentPaper($paper_num)
     {
         $info = db('student_answer_paper')->where('paper_num', $paper_num)->select();
+        return $info;
+    }
+
+    //教师给简答题判分
+    public function teacherModifShortAnswerScore($student_answer_paper_id,$short_answer_score)
+    {
+        $info = db('student_answer_paper')->where('student_answer_paper_id',$student_answer_paper_id)->update(['short_answer_score'=>$short_answer_score]);
         return $info;
     }
 }

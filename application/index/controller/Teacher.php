@@ -101,14 +101,47 @@ class Teacher extends Controller
         }
     }
 
+    //教师添加简答题主页
+    public function teacherAddShortAnswerIndex()
+    {
+        $teacher_model = model('Teacher');
+        $class_info = $teacher_model->teacherFindSelfClass(session('num'));
+        $this->assign('class_info', $class_info);
+        $this->assign('title', '教师中心-添加判断题');
+        return $this->fetch('');
+    }
+
+    //教师添加简答题
+    public function teacherAddShortAnswer()
+    {
+        $data = [
+            'topic' => input('topic'),
+            'soleve_thinking' => input('soleve_thinking'),
+            'difficulty' => input('difficulty'),
+            'class_num' => input('class_num')
+        ];
+
+        $tool = new Tool();
+        $teacher = $tool->numFindUser(session('num'));
+        $class_name = $tool->classNumFindClass($data['class_num'])['class_name'];
+        $teacher_model = model('Teacher');
+        if($teacher_model->teacherAddShortAnswer($data['topic'], $data['soleve_thinking'], $teacher, session('num'), $data['difficulty'], $data['class_num'], $class_name)) {
+            return $this->success('添加试题成功！');
+        } else {
+            return $this->error('添加试题失败！');
+        }
+    }
+
     //教师管理题
     public function teacherTestQuestionsManage()
     {
         $teacher_model = model('Teacher');
-        $single_choice = $teacher_model->teacherSingleChoiceManage(session('num'));
-        $this->assign('single_choice', $single_choice);     //当前教师单选题题目
+        $single_choice = $teacher_model->teacherSingleChoice(session('num'));
         $true_or_false = $teacher_model->teacherTrueOrFalse(session('num'));
+        $short_answer = $teacher_model->teacherShortAnswer(session('num'));
+        $this->assign('single_choice', $single_choice);     //当前教师单选题题目
         $this->assign('true_or_false', $true_or_false);
+        $this->assign('short_answer', $short_answer);
         $this->assign('title', '教师中心-管理题目');
         return $this->fetch('');
     }
@@ -125,11 +158,33 @@ class Teacher extends Controller
         }
     }
 
+    //教师删除判断题题目
+    public function teacherDeleteTrueOrFalse()
+    {
+        $true_or_false_id = input('id');
+        $teacher_model = model('Teacher');
+        if($teacher_model->teacherDeleteTrueOrFalse($true_or_false_id)) {
+            return $this->success('删除试题成功！');
+        } else {
+            return $this->error('删除试题失败！');
+        }
+    }
+
+    //教师删除简答题题目
+    public function teacherDeleteShortAnswer()
+    {
+        $short_answer_id = input('id');
+        $teacher_model = model('Teacher');
+        if($teacher_model->teacherDeleteShortAnswer($short_answer_id)) {
+            return $this->success('删除试题成功！');
+        } else {
+            return $this->error('删除试题失败！');
+        }
+    }
+
     //教师编辑单选题主页
     public function teacherCompileSingleChoiceIndex()
     {
-        $page = input('page');      //判断请求页，将请求页信息传给编辑主页，做返回按钮
-        $this->assign('page', $page);
         $single_choice_id = input('id');
         $teacher_model = model('Teacher');
         $class_info = $teacher_model->teacherFindSelfClass(session('num'));
@@ -172,17 +227,6 @@ class Teacher extends Controller
         }
     }
 
-    //教师删除判断题题目
-    public function teacherDeleteTrueOrFalse()
-    {
-        $true_or_false_id = input('id');
-        $teacher_model = model('Teacher');
-        if($teacher_model->teacherDeleteTrueOrFalse($true_or_false_id)) {
-            return $this->success('删除试题成功！');
-        } else {
-            return $this->error('删除试题失败！');
-        }
-    }
 
     //教师编辑判断题主页
     public function teacherCompileTrueOrFalseIndex()
@@ -225,6 +269,46 @@ class Teacher extends Controller
         }
     }
 
+    //教师编辑简答题主页
+    public function teacherCompileShortAnswerIndex()
+    {
+        $short_answer_id = input('id');
+        $teacher_model = model('Teacher');
+        $class_info = $teacher_model->teacherFindSelfClass(session('num'));
+        $this->assign('class_info', $class_info);
+
+        $short_answer_info = $teacher_model->teacherCompileShortAnswerIndex($short_answer_id);
+        $this->assign('short_answer_info', $short_answer_info);
+        $this->assign('title', '教师中心-编辑判断题');
+        return $this->fetch('');
+    }
+
+    //教师编辑简答题
+    public function teacherCompileShortAnswer()
+    {
+        $data = [
+            'topic' => input('topic'),
+            'soleve_thinking' => input('soleve_thinking'),
+            'difficulty' => input('difficulty'),
+            'class_num' => input('class_num'),
+            'short_answer_id' => input('short_answer_id')
+        ];
+        $check = validate('ShortAnswer');
+        if(!$check->check($data)) {
+            $this->error($check->getError());
+        }
+
+        $tool = new Tool();
+        $class_name = $tool->classNumFindClass($data['class_num'])['class_name'];
+        $teacher_model = model('Teacher');
+        //$topic, $soleve_thinking,  $true_or_false_id, $difficulty, $class_num, $class_name, $answer
+        if($teacher_model->teacherCompileShortAnswer($data['topic'], $data['soleve_thinking'], $data['short_answer_id'], $data['difficulty'], $data['class_num'], $class_name)) {
+            return $this->success('修改试题成功！');
+        } else {
+            return $this->error('修改试题失败！');
+        }
+    }
+
     //教师查找自己的课堂
     public function teacherFindSelfClass()
     {
@@ -252,10 +336,12 @@ class Teacher extends Controller
         $tool = new Tool();
         $single_choice = $tool->classNumFindAllTestQuestions($class_num)['single_choice'];
         $true_or_false = $tool->classNumFindAllTestQuestions($class_num)['true_or_false'];
+        $short_answer = $tool->classNumFindAllTestQuestions($class_num)['short_answer'];
         $class_name = $tool->classNumFindClass($class_num)['class_name'];
         $this->assign('class_name', $class_name);
         $this->assign('single_choice', $single_choice);
         $this->assign('true_or_false', $true_or_false);
+        $this->assign('short_answer', $short_answer);
         $this->assign('class_num', $class_num);
         $this->assign('title', '教师中心-试题');
         return $this->fetch('');
@@ -550,12 +636,12 @@ class Teacher extends Controller
                 $true_or_false[$num]['student_answer'] = $true_or_false_answer[$num];
             }
         }
-        $this->assign('sum_score',$answer_paper['sum_score']);
-        $this->assign('score',$answer_paper['score']);
+        $this->assign('sum_score', $answer_paper['sum_score']);
+        $this->assign('score', $answer_paper['score']);
         $this->assign('paper', $paper);
-        $this->assign('single_choice',$single_choice);
-        $this->assign('true_or_false',$true_or_false);
-        $this->assign('title','教师阅卷');
+        $this->assign('single_choice', $single_choice);
+        $this->assign('true_or_false', $true_or_false);
+        $this->assign('title', '教师阅卷');
         return $this->fetch('');
     }
 }

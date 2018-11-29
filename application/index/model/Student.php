@@ -20,9 +20,9 @@ class Student extends Model
     }
 
     //插入学生答卷信息
-    public function insertStudentTestResult($student_num, $student_name, $class_num, $class_name, $teacher_num, $teacher_name, $paper_num, $paper_name, $sum_score, $score, $student_answer, $single_choice, $true_or_false)
+    public function insertStudentTestResult($student_num, $student_name, $class_num, $class_name, $teacher_num, $teacher_name, $paper_num, $paper_name, $sum_score, $score, $single_choice_answer, $true_or_false_answer, $short_answer_answer, $single_choice, $true_or_false, $short_answer)
     {
-        $info = db('student_answer_paper')->insert(['student_num' => $student_num, 'student_name' => $student_name, 'class_num' => $class_num, 'class_name' => $class_name, 'teacher_num' => $teacher_num, 'teacher_name' => $teacher_name, 'paper_num' => $paper_num, 'paper_name' => $paper_name, 'sum_score' => $sum_score, 'score' => $score, 'student_answer' => $student_answer, 'time' => time(), 'single_choice' => $single_choice, 'true_or_false' => $true_or_false]);
+        $info = db('student_answer_paper')->insert(['student_num' => $student_num, 'student_name' => $student_name, 'class_num' => $class_num, 'class_name' => $class_name, 'teacher_num' => $teacher_num, 'teacher_name' => $teacher_name, 'paper_num' => $paper_num, 'paper_name' => $paper_name, 'sum_score' => $sum_score, 'score' => $score, 'single_choice_answer' => $single_choice_answer, 'true_or_false_answer' => $true_or_false_answer, 'short_answer_answer' => $short_answer_answer, 'time' => time(), 'single_choice' => $single_choice, 'true_or_false' => $true_or_false, 'short_answer' => $short_answer]);
         return $info;
     }
 }
